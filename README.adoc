@@ -1,0 +1,3 @@
+= Playing with Vert.x
+
+Test projects with Vert.x platform.
