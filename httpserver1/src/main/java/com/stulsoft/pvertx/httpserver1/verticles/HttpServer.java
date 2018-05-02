@@ -5,12 +5,16 @@ import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Future;
 import io.vertx.core.Handler;
 import io.vertx.core.http.HttpServerResponse;
+import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.typesafe.config.ConfigFactory;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * @author Yuriy Stul
@@ -50,8 +54,11 @@ public class HttpServer extends AbstractVerticle {
     }
 
     private void indexHandler(RoutingContext routingContext) {
+        logger.info("Handling index...");
+        Map<String,String> results = new LinkedHashMap<>();
+        results.put("response", "Hello");
         HttpServerResponse response = routingContext.response();
-        response.putHeader("content-type", "text/html").end("Hello");
+        response.putHeader("content-type", "application/json").end(Json.encodePrettily(results));
     }
 
 }
