@@ -8,17 +8,15 @@
         <Console name="Console" target="SYSTEM_OUT">
             <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
         </Console>
-        <File name="File" fileName="log/simple.log" append="false">
+        <File name="File" fileName="log/httpserver1.log" append="false">
             <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
         </File>
     </Appenders>
     <Loggers>
-        <Root level="info">
+        <Root level="debug">
             <AppenderRef ref="Console"/>
             <AppenderRef ref="File"/>
         </Root>
-        <!--<Logger name="org.apache.http" level="error">-->
-        <!--<AppenderRef ref="Console"/>-->
-        <!--</Logger>-->
+        <Logger name="io.netty" level="error"/>
     </Loggers>
 </Configuration>
