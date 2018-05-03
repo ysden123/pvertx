@@ -14,8 +14,8 @@ public class Verticle1 extends AbstractVerticle {
     @Override
     public void start() throws Exception {
         logger.info("Starting Verticle1...");
-        config().fieldNames().forEach(s -> logger.info("field: {}", s));
-        String param1 = config().getString("param1");
+        ConfigManager.config().forEach(s -> logger.info("field: {}", s));
+        String param1 = ConfigManager.config().getString("param1");
         logger.info("param1: {}", param1);
         super.start();
     }
