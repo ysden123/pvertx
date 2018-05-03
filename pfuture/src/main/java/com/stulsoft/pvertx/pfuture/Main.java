@@ -1,0 +1,57 @@
+package com.stulsoft.pvertx.pfuture;
+
+import io.vertx.core.AsyncResult;
+import io.vertx.core.Future;
+import io.vertx.core.Handler;
+import io.vertx.core.Vertx;
+import io.vertx.core.json.JsonObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.Scanner;
+
+/**
+ * @author Yuriy Stul
+ * @since 5/3/2018
+ */
+public class Main {
+    private static Logger logger = LoggerFactory.getLogger(Main.class);
+
+    private static Future<String> foo() {
+        Future<String> future = Future.future();
+
+        try {
+            Thread.sleep(250);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+//        future.tryComplete("Good");
+        future.tryFail("Bad");
+
+        return future;
+
+    }
+
+    public static void main(String[] args) {
+        logger.info("Start");
+        Vertx vertx = Vertx.vertx();
+        logger.info("Call foo");
+        Future<String> result = foo();
+        boolean status = result.succeeded();
+
+        logger.info("status={}", status);
+        if (status)
+            logger.info("Result: {}", result.result());
+        else {
+            logger.error("Error: {}", result.cause().getMessage());
+        }
+
+
+        System.out.println("For end enter any line");
+        Scanner sc = new Scanner(System.in);
+        sc.next();
+
+        vertx.close();
+        logger.info("Finish");
+    }
+}
