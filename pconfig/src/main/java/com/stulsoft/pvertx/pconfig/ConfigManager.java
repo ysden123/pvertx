@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
  * @author Yuriy Stul
  * @since 5/3/2018
  */
-public class ConfigManager {
+class ConfigManager {
     private static Logger logger = LoggerFactory.getLogger(ConfigManager.class);
     private static ConfigManager instance = null;
     private final static Object syncObject = new Object();
@@ -57,7 +57,7 @@ public class ConfigManager {
     }
 
     static JsonObject config() {
-        return new JsonObject(getInstance().config.getMap());
+        return getInstance().config.copy();
 
     }
 }

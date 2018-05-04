@@ -1,4 +1,12 @@
 {
-  "param1":"value 1"
-  , "param2":"value 2"
+  "param1": "value 1",
+  "param2": "value 2",
+  "ports": [
+    {
+      "port": 8081
+    },
+    {
+      "port": 8082
+    }
+  ]
 }
