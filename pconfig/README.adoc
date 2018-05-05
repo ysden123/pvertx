@@ -1,6 +1,3 @@
 = httpserver2
 
-This project is a simple HTTP Server starter project with Vertx.
-
-Usage of Verticles.
-Communication between verticles by messages.
+Playing with config.

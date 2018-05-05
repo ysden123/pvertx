@@ -1,0 +1,5 @@
+= pconfig2
+
+This project is a simple HTTP Server starter project with Vertx.
+
+Playing with config
