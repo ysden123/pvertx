@@ -1,0 +1,5 @@
+= prectivex
+
+Playing with ReactiveX
+
+See https://github.com/ReactiveX/RxJava[RxJava: Reactive Extensions for the JVM]
