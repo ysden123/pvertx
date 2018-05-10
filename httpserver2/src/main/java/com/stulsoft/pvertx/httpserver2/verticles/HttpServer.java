@@ -3,7 +3,10 @@ package com.stulsoft.pvertx.httpserver2.verticles;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 import io.vertx.core.AbstractVerticle;
+import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
+import io.vertx.core.Handler;
+import io.vertx.core.eventbus.Message;
 import io.vertx.core.eventbus.ReplyException;
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.core.json.Json;
@@ -33,7 +36,8 @@ public class HttpServer extends AbstractVerticle {
         io.vertx.core.http.HttpServer server = vertx.createHttpServer();
 
         Router router = Router.router(vertx);
-        router.get("/").handler(this::indexHandler);
+        router.get("/service").handler(this::serviceHandler);
+        router.get("/service2").handler(this::service2Handler);
 
         server.requestHandler(router::accept).listen(port, ar -> {
             if (ar.succeeded()) {
@@ -52,29 +56,49 @@ public class HttpServer extends AbstractVerticle {
         stopFuture.complete();
     }
 
-    private void indexHandler(RoutingContext routingContext) {
-        logger.info("Handling index...");
+    private void serviceHandler(RoutingContext routingContext) {
+        logger.info("Handling service...");
+
+        vertx.eventBus().send("serviceAddress", "Get page",
+                messageAsyncResult -> commonServiceHandler(routingContext, messageAsyncResult));
+    }
+
+    private void service2Handler(RoutingContext routingContext) {
+        logger.info("Handling service2...");
 
         HttpServerResponse response = routingContext.response();
 
-        vertx.eventBus().send("serviceAddress", "Get page", messageAsyncResult -> {
-            Map<String, String> results = new LinkedHashMap<>();
-            if (messageAsyncResult.succeeded()) {
-                results.put("response", messageAsyncResult.result().body().toString());
-                response.putHeader("content-type", "application/json").end(Json.encodePrettily(results));
-            } else {
-                ReplyException ex = (ReplyException) messageAsyncResult.cause();
-                int errCode = ex.failureCode();
-                String errMsg = ex.getMessage();
-
-                results.put("error", String.format("Failed getting page. Error code=%d, error message: %s", errCode, errMsg));
-
-                response
-                        .setStatusCode(400)
-                        .putHeader("content-type", "application/json")
-                        .end(Json.encodePrettily(results));
-            }
-        });
+        vertx.eventBus().send("service2Address", "getService2", messageAsyncResult ->
+                commonServiceHandler(routingContext, messageAsyncResult));
     }
 
+    private void commonServiceHandler(RoutingContext routingContext, AsyncResult<Message<Object>> ar) {
+        HttpServerResponse response = routingContext.response();
+        if (ar.succeeded()) {
+            handleMessage(response, ar.result());
+        } else {
+            handleErrorMessage(response, (ReplyException) ar.cause());
+        }
+    }
+
+    private void handleMessage(HttpServerResponse response, Message<Object> message) {
+        Map<String, String> results = new LinkedHashMap<>();
+        results.put("response", message.body().toString());
+        response
+                .setStatusCode(400)
+                .putHeader("content-type", "application/json")
+                .end(Json.encodePrettily(results));
+    }
+
+    private void handleErrorMessage(HttpServerResponse response, ReplyException exception) {
+        int errCode = exception.failureCode();
+        String errMsg = exception.getMessage();
+        Map<String, String> results = new LinkedHashMap<>();
+        results.put("error", String.format("Failed getting page. Error code=%d, error message: %s", errCode, errMsg));
+
+        response
+                .setStatusCode(400)
+                .putHeader("content-type", "application/json")
+                .end(Json.encodePrettily(results));
+    }
 }
