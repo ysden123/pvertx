@@ -12,9 +12,9 @@ import io.vertx.core.AbstractVerticle;
  * @author Yuriy Stul
  *
  */
-public class Service extends AbstractVerticle {
-	private final Logger logger = LoggerFactory.getLogger(Service.class);
-	public static final String SERVICE_ADDRESS = "service_address";
+public class Dispatcher extends AbstractVerticle {
+	private final Logger logger = LoggerFactory.getLogger(Dispatcher.class);
+	public static final String DISPATCHER_ADDRESS = "dispatcher_asddress";
 
 	/* (non-Javadoc)
 	 * @see io.vertx.core.AbstractVerticle#start()
@@ -22,13 +22,12 @@ public class Service extends AbstractVerticle {
 	@Override
 	public void start() throws Exception {
 		super.start();
-		logger.info("Starting Service.");
+		logger.info("Starting Dispatcher.");
 
-		vertx.eventBus().consumer(SERVICE_ADDRESS, m -> {
-			logger.info("Received message");
-			vertx.setTimer(500, l -> {
-				logger.info("Handled message");
-				m.reply("Done");
+		vertx.eventBus().consumer(DISPATCHER_ADDRESS, m -> {
+			vertx.eventBus().send(Service.SERVICE_ADDRESS, "message", ar -> {
+				logger.info("Received response \"{}\" from Service", ar.result().body());
+				m.reply(ar.result().body());
 			});
 		});
 	}
@@ -39,7 +38,7 @@ public class Service extends AbstractVerticle {
 	@Override
 	public void stop() throws Exception {
 		super.stop();
-		logger.info("Stopping Service");
+		logger.info("Stopping Dispatcher.");
 	}
 
 }
