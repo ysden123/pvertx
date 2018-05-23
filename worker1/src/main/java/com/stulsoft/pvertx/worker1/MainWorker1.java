@@ -25,14 +25,12 @@ public class MainWorker1 {
 	public static void main(String[] args) {
 		logger.info("Started MainWorker1");
 		Vertx vertx = Vertx.vertx();
-		Verticle dispatcher = new Dispatcher();
-		Verticle service = new Service();
 
-		vertx.deployVerticle(dispatcher);
+		vertx.deployVerticle("com.stulsoft.pvertx.worker1.Dispatcher");
 
 		Random random = new Random(53456);
 		DeploymentOptions options = new DeploymentOptions().setWorker(true);
-		vertx.deployVerticle(service, options, ar -> {
+		vertx.deployVerticle("com.stulsoft.pvertx.worker1.Service", options, ar -> {
 			for (int i = 1; i <= 5; ++i) {
 				final int id = i;
 				vertx.setTimer(100 + random.nextInt(500), l -> {
