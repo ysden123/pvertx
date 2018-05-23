@@ -20,25 +20,10 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
-*/.idea
+*/\.idea
 *.iml
 */target/
-*/.vertx/
-
-httpserver2/\.classpath
-
-httpserver2/\.project
-
-httpserver2/\.settings/
-
-pconfig2/\.classpath
-
-pconfig2/\.project
-
-pconfig2/\.settings/
-
-simple1/\.classpath
-
-simple1/\.project
-
-simple1/\.settings/
+*/\.vertx/
+*/\.project
+*/\.classpath
+*/\.settings/
