@@ -23,6 +23,7 @@ public class Main1 {
         System.out.println("For end enter any line");
         Scanner sc = new Scanner(System.in);
         sc.next();
+        sc.close();
 
         logger.info("Result: {}", result1.result());
 

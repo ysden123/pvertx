@@ -32,6 +32,7 @@ public class Test2 {
         System.out.println("For end enter any line");
         Scanner sc = new Scanner(System.in);
         sc.next();
+        sc.close();
 
         vertx.close();
         logger.info("Finished Test`");

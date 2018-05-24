@@ -35,7 +35,8 @@ class ConfigManager {
         return instance;
     }
 
-    void load(Vertx vertx, Handler<AsyncResult> handler) {
+    @SuppressWarnings("rawtypes")
+	void load(Vertx vertx, Handler<AsyncResult> handler) {
         logger.info("loading config...");
         ConfigStoreOptions fileStore = new ConfigStoreOptions()
                 .setType("file")

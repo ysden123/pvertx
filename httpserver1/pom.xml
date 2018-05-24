@@ -11,21 +11,8 @@
 
     <properties>
         <vertx.version>3.5.1</vertx.version>
-        <!-- <main.verticle>io.vertx.starter.MainVerticle</main.verticle> -->
         <slf4j.version>1.7.5</slf4j.version>
     </properties>
-
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>io.vertx</groupId>
-                <artifactId>vertx-stack-depchain</artifactId>
-                <version>${vertx.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
 
     <dependencies>
         <dependency>
@@ -48,6 +35,7 @@
         <dependency>
             <groupId>io.vertx</groupId>
             <artifactId>vertx-unit</artifactId>
+            <version>${vertx.version}</version>
             <scope>test</scope>
         </dependency>
 
