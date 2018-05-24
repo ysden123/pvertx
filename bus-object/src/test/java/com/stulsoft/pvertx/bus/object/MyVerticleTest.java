@@ -1,13 +1,8 @@
 /*
- * Created 6 May 2018
+ * Created by Yuriy Stul 24 May 2018
  */
+package com.stulsoft.pvertx.bus.object;
 
-package com.stulsoft.pvertx.unittest1;
-
-import io.vertx.core.Vertx;
-import io.vertx.ext.unit.Async;
-import io.vertx.ext.unit.TestContext;
-import io.vertx.ext.unit.junit.VertxUnitRunner;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,12 +10,20 @@ import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import io.vertx.core.Vertx;
+import io.vertx.core.json.JsonObject;
+import io.vertx.ext.unit.Async;
+import io.vertx.ext.unit.TestContext;
+import io.vertx.ext.unit.junit.VertxUnitRunner;
+
 /**
  * @author Yuriy Stul
+ *
  */
 @RunWith(VertxUnitRunner.class)
-public class Verticle1Test {
-	private static Logger logger = LoggerFactory.getLogger(Verticle1Test.class);
+public class MyVerticleTest {
+	private static Logger logger = LoggerFactory.getLogger(MyVerticle.class);
+
 	private Vertx vertx;
 
 	@Before
@@ -38,7 +41,15 @@ public class Verticle1Test {
 	@Test
 	public void start(TestContext context) {
 		final Async async = context.async();
-		vertx.deployVerticle(new Verticle1());
+		vertx.deployVerticle(new MyVerticle(), ar -> {
+			if (ar.succeeded()) {
+				for (int i = 1; i <= 3; ++i) {
+					MyObject obj = new MyObject("name " + i, i);
+					vertx.eventBus().send(MyVerticle.ADDRESS, JsonObject.mapFrom(obj));
+				}
+
+			}
+		});
 		vertx.setTimer(500, (l) -> {
 			async.complete();
 		});

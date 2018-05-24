@@ -1,13 +1,14 @@
 package com.stulsoft.pvertx.httpserver1;
 
-import com.stulsoft.pvertx.httpserver1.verticles.HttpServer;
-import io.vertx.core.Verticle;
-import io.vertx.core.Vertx;
+import java.util.Scanner;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.Console;
-import java.util.Scanner;
+import com.stulsoft.pvertx.httpserver1.verticles.HttpServer;
+
+import io.vertx.core.Verticle;
+import io.vertx.core.Vertx;
 
 /**
  * @author Yuriy Stul
@@ -28,6 +29,7 @@ public class Main {
         System.out.println("For end enter any line");
         Scanner sc = new Scanner(System.in);
         sc.next();
+        sc.close();
 
         logger.info("Stopping Vertx...");
         vertx.close();
