@@ -6,13 +6,14 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.stulsoft.pvertx</groupId>
-    <artifactId>pconfig2</artifactId>
+    <artifactId>bus-object</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
         <vertx.version>3.5.1</vertx.version>
-        <!-- <main.verticle>io.vertx.starter.MainVerticle</main.verticle> -->
         <slf4j.version>1.7.5</slf4j.version>
+        <junit.version>4.12</junit.version>
+        <log4jSlf4j.version>2.9.0</log4jSlf4j.version>
     </properties>
 
     <dependencies>
@@ -22,20 +23,9 @@
             <version>${vertx.version}</version>
         </dependency>
         <dependency>
-            <groupId>io.vertx</groupId>
-            <artifactId>vertx-web</artifactId>
-            <version>${vertx.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.vertx</groupId>
-            <artifactId>vertx-config</artifactId>
-            <version>${vertx.version}</version>
-        </dependency>
-
-        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.12</version>
+            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -59,15 +49,8 @@
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-slf4j-impl</artifactId>
-            <version>2.9.0</version>
+            <version>${log4jSlf4j.version}</version>
         </dependency>
-
-        <dependency>
-            <groupId>com.typesafe</groupId>
-            <artifactId>config</artifactId>
-            <version>1.3.3</version>
-        </dependency>
-
     </dependencies>
 
     <build>

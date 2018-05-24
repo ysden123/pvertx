@@ -1,22 +1,23 @@
 package com.stulsoft.pvertx.httpserver2.verticles;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
+
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
-import io.vertx.core.Handler;
 import io.vertx.core.eventbus.Message;
 import io.vertx.core.eventbus.ReplyException;
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.core.json.Json;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 /**
  * @author Yuriy Stul
@@ -65,8 +66,6 @@ public class HttpServer extends AbstractVerticle {
 
     private void service2Handler(RoutingContext routingContext) {
         logger.info("Handling service2...");
-
-        HttpServerResponse response = routingContext.response();
 
         vertx.eventBus().send("service2Address", "getService2", messageAsyncResult ->
                 commonServiceHandler(routingContext, messageAsyncResult));

@@ -48,6 +48,7 @@ public class Main {
         System.out.println("For end enter any line");
         Scanner sc = new Scanner(System.in);
         sc.next();
+        sc.close();
 
         vertx.close();
         logger.info("Completed Main");
