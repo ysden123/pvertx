@@ -11,6 +11,9 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Usage the map
+ * <p>
+ * The method map is working only in case success.
+ * In case failure the method returns <i>null</i>
  *
  * @author Yuriy Stul
  */
@@ -24,29 +27,30 @@ public class MainMap extends AbstractVerticle {
         logger.info("==>main");
         Vertx vertx = Vertx.vertx();
         vertx.deployVerticle(new MainMap(), deployRes -> {
-            vertx.eventBus().send(ADDRESS, COMMAND_SUCCESS, res -> {
-                if (res.succeeded())
-                    logger.info("success: {} -> {}", COMMAND_SUCCESS, res.result().body());
-                else
-                    logger.info("fail: {} -> {}", COMMAND_SUCCESS, res.cause().getMessage());
-            });
-
-            vertx.eventBus().send(ADDRESS, COMMAND_FAIL, res -> {
-                if (res.succeeded())
-                    logger.info("success: {} -> {}", COMMAND_FAIL, res.result().body());
-                else
-                    logger.info("fail: {} -> {}", COMMAND_FAIL, res.cause().getMessage());
-            });
+            vertx.eventBus().send(ADDRESS, COMMAND_SUCCESS, res -> resultHandler(COMMAND_SUCCESS, res));
+            vertx.eventBus().send(ADDRESS, COMMAND_FAIL, res -> resultHandler(COMMAND_FAIL, res));
         });
 
-
         vertx.setTimer(2000, l -> vertx.close());
+    }
+
+    /**
+     * Handles a result of work
+     *
+     * @param command     the command
+     * @param asyncResult result
+     */
+    private static void resultHandler(final String command, final AsyncResult<Message<Object>> asyncResult) {
+        if (asyncResult.succeeded())
+            logger.info("Succeeded. command: {} -> result: {}", command, asyncResult.result().body());
+        else
+            logger.info("Failed. command: {} -> error: {}", command, asyncResult.cause().getMessage());
     }
 
     @Override
     public void start() throws Exception {
         super.start();
-        vertx.eventBus().consumer(ADDRESS, this::handler);
+        vertx.eventBus().consumer(ADDRESS, this::messageHandler);
     }
 
     @Override
@@ -54,8 +58,17 @@ public class MainMap extends AbstractVerticle {
         super.stop();
     }
 
-    private void handler(final Message<String> message) {
+    /**
+     * Handles a event message
+     *
+     * @param message the message
+     */
+    private void messageHandler(final Message<String> message) {
         process(message.body(), res -> {
+            logger.info("Result of map: {}", res.map(s -> {
+                logger.info("in map");
+                return s.equals("success");
+            }));
             if (res.succeeded()) {
                 logger.info("(1) command={}, result={}", message.body(), res.map(s -> s.equals("success")).result());
                 message.reply(res.map(s -> s.equals("success")).result());
