@@ -8,7 +8,7 @@
         <Console name="Console" target="SYSTEM_OUT">
             <PatternLayout pattern="%d{yyyy:MM:dd HH:mm:ss.SSS} [%t] %-5level %logger(%L) - %msg%n"/>
         </Console>
-        <File name="File" fileName="log/asyncresult.log" append="false">
+        <File name="File" fileName="log/autoclose.log" append="false">
             <PatternLayout pattern="%d{yyyy:MM:dd HH:mm:ss.SSS} [%t] %-5level %logger(%L) - %msg%n"/>
         </File>
     </Appenders>

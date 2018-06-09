@@ -10,15 +10,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Usage the map
+ * Usage the otherwise
  * <p>
- * The method map is working only in case success.
- * In case failure the method returns <i>null</i>
+ * The method otherwise is working only in case fail.
  *
  * @author Yuriy Stul
  */
-public class MainMap extends AbstractVerticle {
-    private static final Logger logger = LoggerFactory.getLogger(MainMap.class);
+public class MainOtherwise extends AbstractVerticle {
+    private static final Logger logger = LoggerFactory.getLogger(MainOtherwise.class);
     private static final String ADDRESS = "mainmap";
     private static final String COMMAND_SUCCESS = "success";
     private static final String COMMAND_FAIL = "fail";
@@ -26,7 +25,7 @@ public class MainMap extends AbstractVerticle {
     public static void main(String[] args) {
         logger.info("==>main");
         Vertx vertx = Vertx.vertx();
-        vertx.deployVerticle(new MainMap(), deployRes -> {
+        vertx.deployVerticle(new MainOtherwise(), deployRes -> {
             vertx.eventBus().send(ADDRESS, COMMAND_SUCCESS, res -> resultHandler(COMMAND_SUCCESS, res));
             vertx.eventBus().send(ADDRESS, COMMAND_FAIL, res -> resultHandler(COMMAND_FAIL, res));
         });
@@ -64,19 +63,12 @@ public class MainMap extends AbstractVerticle {
      * @param message the message
      */
     private void messageHandler(final Message<String> message) {
-        process(message.body(), res -> {
-            logger.info("Result of map: {}", res.map(s -> {
-                logger.info("in map");
-                return s.equals("success");
-            }));
-            if (res.succeeded()) {
-                logger.info("(1) command={}, result={}", message.body(), res.map(s -> s.equals("success")).result());
-                message.reply(res.map(s -> s.equals("success")).result());
-            } else {
-                logger.info("(2) command={}, result={}", message.body(), res.map(s -> s.equals("success")).result());
-                message.fail(123, res.cause().getMessage());
-            }
-        });
+        process(message.body(), res ->
+                message.reply(res.otherwise(t -> {
+                    logger.info("in otherwise");
+                    return "Hello from otherwise";
+                }).result())
+        );
     }
 
     private void process(final String command, Handler<AsyncResult<String>> handler) {
@@ -89,4 +81,5 @@ public class MainMap extends AbstractVerticle {
                 break;
         }
     }
+
 }

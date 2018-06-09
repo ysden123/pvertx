@@ -10,23 +10,24 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Usage the map
+ * Usage the map with otherwise
  * <p>
- * The method map is working only in case success.
- * In case failure the method returns <i>null</i>
+ * The method <i>map</i> is working only in case success.
+ * <p>
+ * The method <i>otherwise</i> is working only in case fail.
  *
  * @author Yuriy Stul
  */
-public class MainMap extends AbstractVerticle {
-    private static final Logger logger = LoggerFactory.getLogger(MainMap.class);
-    private static final String ADDRESS = "mainmap";
+public class MainMapWithOtherwise extends AbstractVerticle {
+    private static final Logger logger = LoggerFactory.getLogger(MainMapWithOtherwise.class);
+    private static final String ADDRESS = "main_map_with_otherwise";
     private static final String COMMAND_SUCCESS = "success";
     private static final String COMMAND_FAIL = "fail";
 
     public static void main(String[] args) {
         logger.info("==>main");
         Vertx vertx = Vertx.vertx();
-        vertx.deployVerticle(new MainMap(), deployRes -> {
+        vertx.deployVerticle(new MainMapWithOtherwise(), deployRes -> {
             vertx.eventBus().send(ADDRESS, COMMAND_SUCCESS, res -> resultHandler(COMMAND_SUCCESS, res));
             vertx.eventBus().send(ADDRESS, COMMAND_FAIL, res -> resultHandler(COMMAND_FAIL, res));
         });
@@ -65,20 +66,23 @@ public class MainMap extends AbstractVerticle {
      */
     private void messageHandler(final Message<String> message) {
         process(message.body(), res -> {
-            logger.info("Result of map: {}", res.map(s -> {
-                logger.info("in map");
-                return s.equals("success");
-            }));
-            if (res.succeeded()) {
-                logger.info("(1) command={}, result={}", message.body(), res.map(s -> s.equals("success")).result());
-                message.reply(res.map(s -> s.equals("success")).result());
-            } else {
-                logger.info("(2) command={}, result={}", message.body(), res.map(s -> s.equals("success")).result());
-                message.fail(123, res.cause().getMessage());
-            }
+            // Prepare result
+            String result = res
+                    .map(s -> s + " mapped")    // If succeeded
+                    .otherwise(t -> {           // If failed
+                        logger.info("in otherwise {}", t.getMessage());
+                        return "Hello from otherwise";
+                    }).result();
+            message.reply(result);
         });
     }
 
+    /**
+     * Makes a job
+     *
+     * @param command the command
+     * @param handler the result handler
+     */
     private void process(final String command, Handler<AsyncResult<String>> handler) {
         switch (command) {
             case COMMAND_SUCCESS:
@@ -89,4 +93,5 @@ public class MainMap extends AbstractVerticle {
                 break;
         }
     }
+
 }

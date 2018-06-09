@@ -1,0 +1,5 @@
+= asyncresult
+
+Playing with Vertx.
+
+Example of _"auto"_ closing the Vertx at the end of execution.
