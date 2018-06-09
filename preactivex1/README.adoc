@@ -1,5 +1,5 @@
 = prectivex
 
-Playing with ReactiveX
+Playing with ReactiveX: RxJava
 
 See https://github.com/ReactiveX/RxJava[RxJava: Reactive Extensions for the JVM]

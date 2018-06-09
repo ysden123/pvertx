@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2018. Yuriy Stul
+ */
+
 package com.stulsoft.pvertx.preactivex1;
 
 import io.reactivex.Single;
@@ -6,7 +10,6 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author Yuriy Stul
- * @since 5/8/2018
  */
 public class Single3 {
     private static Logger logger = LoggerFactory.getLogger(Single3.class);

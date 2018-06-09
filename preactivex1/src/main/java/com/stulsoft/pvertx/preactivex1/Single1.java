@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2018. Yuriy Stul
+ */
+
 package com.stulsoft.pvertx.preactivex1;
 
 import org.slf4j.Logger;
@@ -8,7 +12,6 @@ import io.reactivex.disposables.Disposable;
 
 /**
  * @author Yuriy Stul
- * @since 5/8/2018
  */
 public class Single1 {
 	private static final Logger logger = LoggerFactory.getLogger(Single1.class);
