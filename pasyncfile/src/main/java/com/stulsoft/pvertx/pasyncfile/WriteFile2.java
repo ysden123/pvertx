@@ -12,21 +12,25 @@ import io.vertx.rxjava.core.eventbus.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Optional;
+
 /**
- * Writes one buffer in one write operation
+ * Writes many buffers in many write operations
  *
  * @author Yuriy Stul
  */
-public class WriteFile1 extends AbstractVerticle {
-    private static final Logger logger = LoggerFactory.getLogger(WriteFile1.class);
+public class WriteFile2 extends AbstractVerticle {
+    private static final Logger logger = LoggerFactory.getLogger(WriteFile2.class);
 
-    private static final String EB_ADDRESS_START = "WriteFile1_start";
-    private static final String EB_ADDRESS_STOP = "WriteFile1_stop";
+    private static final String EB_ADDRESS_START = "WriteFile2_start";
+    private static final String EB_ADDRESS_STOP = "WriteFile2_stop";
+
+    private int dataCount = 100;
 
     public static void main(String[] args) {
         logger.info("==>main");
         var vertx = Vertx.vertx();
-        vertx.deployVerticle("com.stulsoft.pvertx.pasyncfile.WriteFile1", depRes ->
+        vertx.deployVerticle("com.stulsoft.pvertx.pasyncfile.WriteFile2", depRes ->
                 vertx.eventBus().send(EB_ADDRESS_START, "start", execResult ->
                         vertx.eventBus().send(EB_ADDRESS_STOP, "stop")));
     }
@@ -52,19 +56,28 @@ public class WriteFile1 extends AbstractVerticle {
         if (!vertx.fileSystem().existsBlocking(path))
             vertx.fileSystem().mkdirBlocking(path);
 
-        vertx.fileSystem().open(path + "/file1.txt", new OpenOptions(), openRes -> {
-            var outputFile = openRes.result(); // AsyncFile
-            var buffer = generateData();
-            outputFile.write(buffer, 0, writeRes -> message.reply("done"));
-        });
+        vertx.fileSystem().open(path + "/file2.txt",
+                new OpenOptions()
+                        .setCreate(true)
+                        .setAppend(false)
+                        .setWrite(true),
+                openRes -> {
+                    var outputFile = openRes.result(); // AsyncFile
 
+                    Optional<Buffer> optBuffer;
+                    while ((optBuffer = nextData()).isPresent()) {
+                        outputFile.write(optBuffer.get());
+                    }
+
+                    outputFile.end();
+                    message.reply("done");
+                });
     }
 
-    private Buffer generateData() {
-        var buffer = Buffer.buffer();
-        for (var i = 1; i <= 100; ++i) {
-            buffer.appendString(String.format("Line # %d%n", i));
-        }
-        return buffer;
+    private Optional<Buffer> nextData() {
+        return (--dataCount > 0) ?
+                Optional.of(Buffer.buffer(String.format("Line # %d%n", dataCount)))
+                :
+                Optional.empty();
     }
 }
