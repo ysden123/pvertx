@@ -7,27 +7,22 @@
 
     <groupId>com.stulsoft.pvertx</groupId>
     <artifactId>httpserver2</artifactId>
-	<parent>
+    <parent>
         <groupId>com.stulsoft.pvertx</groupId>
         <artifactId>pvertx</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
     <version>1.0-SNAPSHOT</version>
-	
-	<properties>
-		<typesafe.version>1.3.3</typesafe.version>
-	</properties>
+
+    <properties>
+        <typesafe.version>1.3.3</typesafe.version>
+    </properties>
 
     <dependencies>
         <dependency>
             <groupId>io.vertx</groupId>
             <artifactId>vertx-web</artifactId>
             <version>${vertx.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.typesafe</groupId>
-            <artifactId>config</artifactId>
-            <version>${typesafe.version}</version>
         </dependency>
     </dependencies>
 </project>
