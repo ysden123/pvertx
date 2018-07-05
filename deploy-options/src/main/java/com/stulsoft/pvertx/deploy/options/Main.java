@@ -34,6 +34,8 @@ public class Main extends AbstractVerticle {
         vertx.deployVerticle("com.stulsoft.pvertx.deploy.options.V1", deploymentOptions);
         vertx.deployVerticle("com.stulsoft.pvertx.deploy.options.Main", deploymentOptions, depRes -> {
 //            vertx.setPeriodic(500, l -> vertx.eventBus().send(EB_ADDRESS, "go!"));
+            logger.info("vertx.deploymentIDs(): {}", vertx.deploymentIDs().toString());
+
             for (var i = 1; i <= 4; ++i) {
                 vertx.eventBus().send(EB_ADDRESS, "go!");
             }
