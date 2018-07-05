@@ -16,10 +16,10 @@ import org.slf4j.LoggerFactory;
 public class V1 extends AbstractVerticle {
     private static final Logger logger = LoggerFactory.getLogger(V1.class);
 
-    public static final String EB_ADDRESS = "v1";
+    static final String EB_ADDRESS = "v1";
 
     @Override
-    public void start(Future<Void> startFuture) throws Exception {
+    public void start(Future<Void> startFuture) {
         logger.info("==>start with conf: {}", config());
         vertx.eventBus().consumer(EB_ADDRESS, this::handler);
         startFuture.complete();
@@ -35,7 +35,7 @@ public class V1 extends AbstractVerticle {
         logger.info("==>handler with message {}", message.body());
         var conf = config();
         logger.info("conf: {}", conf);
-        logger.info("context.getInstanceCount() = {}",context.getInstanceCount());
+        logger.info("part1: {}", conf.getJsonObject("part1"));
 
         vertx.setTimer(300, l -> message.reply("Completed V1"));
     }
