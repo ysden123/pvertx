@@ -35,6 +35,8 @@ public class V1 extends AbstractVerticle {
         logger.info("==>handler with message {}", message.body());
         var conf = config();
         logger.info("conf: {}", conf);
+        logger.info("context.getInstanceCount() = {}",context.getInstanceCount());
+
         vertx.setTimer(300, l -> message.reply("Completed V1"));
     }
 }

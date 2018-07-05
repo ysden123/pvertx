@@ -22,9 +22,7 @@ public class Main1 extends AbstractVerticle {
     public static void main(String[] args) {
         logger.info("==>main");
 
-        var config = new JsonObject()
-                .put("key1", "value1")
-                .put("key2", "value2");
+        var config = ConfigBuilder.load("conf1.json");
         var deploymentOptions = new DeploymentOptions()
                 .setWorker(true)
                 .setConfig(config);
@@ -32,12 +30,15 @@ public class Main1 extends AbstractVerticle {
 
         var vertx = Vertx.vertx();
         vertx.deployVerticle("com.stulsoft.pvertx.deploy.options.V1", deploymentOptions);
+        vertx.deployVerticle("com.stulsoft.pvertx.deploy.options.V1", deploymentOptions);
+        vertx.deployVerticle("com.stulsoft.pvertx.deploy.options.V1", deploymentOptions);
+        vertx.deployVerticle("com.stulsoft.pvertx.deploy.options.V1", deploymentOptions);
         vertx.deployVerticle("com.stulsoft.pvertx.deploy.options.Main1", deploymentOptions, depRes -> {
 //            vertx.setPeriodic(500, l -> vertx.eventBus().send(EB_ADDRESS, "go!"));
-            for (var i = 1; i <= 2; ++i) {
+            for (var i = 1; i <= 4; ++i) {
                 vertx.eventBus().send(EB_ADDRESS, "go!");
             }
-            vertx.setTimer(2000, l -> vertx.close());
+            vertx.setTimer(4000, l -> vertx.close());
         });
     }
 
