@@ -29,3 +29,7 @@ hs_err_pid*
 */\.settings/
 
 pasyncfile/out/
+
+\.idea/
+
+test-files/
