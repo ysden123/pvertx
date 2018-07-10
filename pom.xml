@@ -5,7 +5,7 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.stulsoft.pvertx</groupId>
+    <groupId>com.stulsoft</groupId>
     <artifactId>pvertx</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
@@ -23,6 +23,7 @@
         <module>pconfig2</module>
         <module>pfuture</module>
         <module>pfuture2</module>
+        <module>pjson</module>
         <module>preactivex1</module>
         <module>preactivex2</module>
         <module>preactivex3</module>

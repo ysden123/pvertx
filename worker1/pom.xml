@@ -7,7 +7,7 @@
 
     <artifactId>worker1</artifactId>
 	<parent>
-        <groupId>com.stulsoft.pvertx</groupId>
+        <groupId>com.stulsoft</groupId>
         <artifactId>pvertx</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
