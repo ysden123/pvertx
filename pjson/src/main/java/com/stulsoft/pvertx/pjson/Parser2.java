@@ -12,20 +12,19 @@ import io.vertx.reactivex.core.parsetools.JsonParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author Yuriy Stul
  */
-public class Parser1 {
-    private static final Logger logger = LoggerFactory.getLogger(Parser1.class);
+public class Parser2 {
+    private static final Logger logger = LoggerFactory.getLogger(Parser2.class);
 
     public static void main(String[] args) {
         logger.info("==>main");
         var vertx = Vertx.vertx();
         DataGenerator
-                .buildSimpleJson(vertx, "data1.json", 10)
+                .buildJsonArray(vertx, "data2.json", 10)
                 .setHandler(buildRes -> {
                     readFile(vertx)
                             .setHandler(readRes -> logger.info("<==main"));
@@ -35,7 +34,7 @@ public class Parser1 {
     private static Future<Void> readFile(final Vertx vertx) {
         Future<Void> future = Future.future();
 
-        vertx.fileSystem().open("test-files/data1.json",
+        vertx.fileSystem().open("test-files/data2.json",
                 new OpenOptions()
                 , openRes -> {
                     var file = openRes.result();
@@ -63,4 +62,5 @@ public class Parser1 {
 
         return future;
     }
+
 }
