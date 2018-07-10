@@ -1,0 +1,3 @@
+= pjson
+
+Playing with ReactiveX and Vertx - event json processing
