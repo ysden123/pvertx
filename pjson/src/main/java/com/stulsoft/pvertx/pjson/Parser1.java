@@ -26,10 +26,7 @@ public class Parser1 {
         var vertx = Vertx.vertx();
         DataGenerator
                 .buildSimpleJson(vertx, "data1.json", 10)
-                .setHandler(buildRes -> {
-                    readFile(vertx)
-                            .setHandler(readRes -> logger.info("<==main"));
-                });
+                .compose(v->readFile(vertx));
     }
 
     private static Future<Void> readFile(final Vertx vertx) {
@@ -48,12 +45,14 @@ public class Parser1 {
                                 future.fail(t);
                             })
                             .endHandler(v -> {
+                                logger.info("Processed {} records", counter.get());
                                 file.close();
                                 vertx.close();
                                 future.complete();
                             })
                             .handler(event -> {
                                 if (event.type() == JsonEventType.VALUE) {
+                                    counter.incrementAndGet();
                                     logger.info("{}->{}", event.fieldName(), event.value().toString());
                                 } else {
                                     logger.info("{}", event.type());

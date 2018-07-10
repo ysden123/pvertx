@@ -4,8 +4,8 @@
 
 package com.stulsoft.pvertx.pjson;
 
-import io.vertx.core.Future;
 import io.vertx.core.file.OpenOptions;
+import io.vertx.reactivex.core.Future;
 import io.vertx.reactivex.core.Vertx;
 import io.vertx.reactivex.core.buffer.Buffer;
 import org.slf4j.Logger;
