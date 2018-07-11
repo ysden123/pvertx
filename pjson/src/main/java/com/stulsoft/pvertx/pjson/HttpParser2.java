@@ -15,12 +15,12 @@ import org.slf4j.LoggerFactory;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * Using Observable
+ * Using flowable
  *
  * @author Yuriy Stul
  */
-public class HttpParser1 {
-    private static final Logger logger = LoggerFactory.getLogger(HttpParser1.class);
+public class HttpParser2 {
+    private static final Logger logger = LoggerFactory.getLogger(HttpParser2.class);
 
     public static void main(String[] args) {
         logger.info("==>main");
@@ -37,7 +37,7 @@ public class HttpParser1 {
         req.handler(reqRes -> {
             if (reqRes.statusCode() == HttpResponseStatus.OK.code()) {
                 var counter = new AtomicInteger();
-                var parser = JsonParser.newParser(reqRes.toObservable());
+                var parser = JsonParser.newParser(reqRes.toFlowable());
                 parser.objectValueMode()
                         .exceptionHandler(t -> {
                             logger.error(t.getMessage(), t);
