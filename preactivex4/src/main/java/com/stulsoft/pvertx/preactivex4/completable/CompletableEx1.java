@@ -30,9 +30,8 @@ public class CompletableEx1 {
 
     private static Completable f1() {
         logger.info("==>f1");
-        var result = CompletableSubject.create();
         logger.info("<==f1");
-        return result.complete();
+        return Completable.complete();
     }
 
 
