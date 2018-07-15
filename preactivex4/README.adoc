@@ -1,3 +1,10 @@
 = prectivex4
 
 Playing with ReactiveX and Vertx
+
+== completable
+
+.Playing with Completable:
+- chain
+- andThen
+- timer
