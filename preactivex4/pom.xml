@@ -14,9 +14,6 @@
     <version>1.0-SNAPSHOT</version>
     <name>preactivex4</name>
     <description>Playing with ReactiveX and Vertx</description>
-    <properties>
-        <reactivex.version>2.1.13</reactivex.version>
-    </properties>
 
     <dependencies>
         <dependency>
