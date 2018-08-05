@@ -43,6 +43,8 @@ object HelloWorldHttpVerticle extends App {
       case Success(result) =>
         logger.info("Success, verticle ID is {}", result)
         vertx.setTimer(1000, l => vertx.close)
-      case Failure(t) => logger.error("Failure {}", t.getMessage)
+      case Failure(t) =>
+        logger.error("Failure {}", t.getMessage)
+        vertx.close()
     }
 }
