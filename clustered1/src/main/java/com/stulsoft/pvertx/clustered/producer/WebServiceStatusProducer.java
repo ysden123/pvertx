@@ -12,6 +12,9 @@ import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.core.VertxOptions;
+import io.vertx.core.impl.VertxInternal;
+import io.vertx.core.spi.cluster.ClusterManager;
+import io.vertx.ext.cluster.infinispan.InfinispanClusterManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,6 +30,10 @@ public class WebServiceStatusProducer extends AbstractVerticle {
         logger.info("RandomIdsProducer verticle started");
 
         vertx.setPeriodic(1000, x -> {
+
+            ClusterManager clusterManager = ((VertxInternal) vertx).getClusterManager();
+            logger.info("Nodes: {}", String.join(", ", clusterManager.getNodes()));
+
             int randomId = ThreadLocalRandom.current().nextInt(0, 3);
             logger.info("Sending data to 'ids' -> " + randomId);
             vertx.eventBus().send(IDS_ADDRESS, randomId);
@@ -35,6 +42,7 @@ public class WebServiceStatusProducer extends AbstractVerticle {
     }
 
     public static void main(String[] args) {
+        InfinispanClusterManager cm = new InfinispanClusterManager();
         Vertx.clusteredVertx(new VertxOptions().setClustered(true), ar -> {
             if (ar.failed()) {
                 System.err.println("Cannot create vert.x instance : " + ar.cause());
