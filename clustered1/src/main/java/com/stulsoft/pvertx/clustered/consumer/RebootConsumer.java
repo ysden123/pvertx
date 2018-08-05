@@ -7,8 +7,6 @@ package com.stulsoft.pvertx.clustered.consumer;
 import static com.stulsoft.pvertx.clustered.common.Config.*;
 
 import java.util.UUID;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Future;
@@ -16,13 +14,15 @@ import io.vertx.core.Vertx;
 import io.vertx.core.VertxOptions;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.shareddata.Lock;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Yuriy Stul
  */
 public class RebootConsumer extends AbstractVerticle {
 
-    private final Logger logger = Logger.getLogger(RebootConsumer.class.getName());
+    private final Logger logger = LoggerFactory.getLogger(RebootConsumer.class);
     private boolean reboot = false;
     private String id = "ID-" + UUID.randomUUID().toString().substring(0, 4).toUpperCase();
 
@@ -57,7 +57,7 @@ public class RebootConsumer extends AbstractVerticle {
                     });
 
                 } else {
-                    logger.log(Level.SEVERE, "Should work !", ar.cause());
+                    logger.error("Should work !", ar.cause());
                 }
             });
         }

@@ -6,20 +6,20 @@ package com.stulsoft.pvertx.clustered.consumer;
 
 import static com.stulsoft.pvertx.clustered.common.Config.*;
 
-import java.util.logging.Logger;
-
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.core.VertxOptions;
 import io.vertx.core.json.JsonObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Yuriy Stul
  */
 public class Monitoring extends AbstractVerticle {
 
-    private final Logger logger = Logger.getLogger(Monitoring.class.getName());
+    private final Logger logger = LoggerFactory.getLogger(Monitoring.class);
 
     @Override
     public void start(Future<Void> startFuture) {

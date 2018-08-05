@@ -7,19 +7,20 @@ package com.stulsoft.pvertx.clustered.producer;
 import static com.stulsoft.pvertx.clustered.common.Config.*;
 
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.logging.Logger;
 
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.core.VertxOptions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Yuriy Stul
  */
 public class WebServiceStatusProducer extends AbstractVerticle {
 
-    private final Logger logger = Logger.getLogger(WebServiceStatusProducer.class.getName());
+    private final Logger logger = LoggerFactory.getLogger(WebServiceStatusProducer.class);
 
     @Override
     public void start(Future<Void> startFuture) {
