@@ -26,7 +26,7 @@ public class ChainDeployment2 extends AbstractVerticle {
                 logger.error("Total failure {}", result.cause().getMessage());
         });
     }
-    
+
     @Override
     public void start(Future<Void> startFuture) throws Exception {
         logger.info("==>start");
