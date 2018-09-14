@@ -1,4 +1,4 @@
-= prectivex
+= preactivex1
 
 Playing with ReactiveX: RxJava
 
