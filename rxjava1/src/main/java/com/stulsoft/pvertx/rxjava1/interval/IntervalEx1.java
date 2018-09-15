@@ -2,7 +2,7 @@
  * Copyright (c) 2018. Yuriy Stul
  */
 
-package com.stulsoft.pvertx.rxjava1.timer;
+package com.stulsoft.pvertx.rxjava1.interval;
 
 import io.reactivex.Observable;
 import org.slf4j.Logger;
@@ -11,17 +11,17 @@ import org.slf4j.LoggerFactory;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Timer generates 1 event
+ * Interval generates endless events with specified time period
  *
  * @author Yuriy Stul
  */
-public class TimerEx1 {
-    private static Logger logger = LoggerFactory.getLogger(TimerEx1.class);
+public class IntervalEx1 {
+    private static Logger logger = LoggerFactory.getLogger(IntervalEx1.class);
 
     public static void main(String[] args) {
         logger.info("==>main");
 
-        Observable.timer(3, TimeUnit.SECONDS)
+        Observable.interval(1, TimeUnit.SECONDS)
                 .doOnNext(l -> logger.info("onNext: {}", l))
                 .doOnComplete(() -> logger.info("Completed"))
                 .subscribe();
