@@ -10,12 +10,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Simple Maybe.
+ * Maybe with map.
  *
  * @author Yuriy Stul
  */
-public class MaybeEx1 {
-    private static Logger logger = LoggerFactory.getLogger(MaybeEx1.class);
+public class MaybeEx2 {
+    private static Logger logger = LoggerFactory.getLogger(MaybeEx2.class);
 
     public static void main(String[] args) {
         logger.info("==>main");
@@ -53,8 +53,10 @@ public class MaybeEx1 {
     }
 
     private static Disposable handle(Maybe<Integer> mayBe) {
-        return mayBe.subscribe(i -> logger.info("success: i = {}", i),
-                e -> logger.error("error: e = {}", e.getMessage()),
-                () -> logger.info("complete"));
+        return mayBe
+                .map(i -> i + 100)
+                .subscribe(i -> logger.info("success: i = {}", i),
+                        e -> logger.error("error: e = {}", e.getMessage()),
+                        () -> logger.info("complete"));
     }
 }
