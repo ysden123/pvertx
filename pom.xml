@@ -28,6 +28,7 @@
         <module>preactivex2</module>
         <module>preactivex3</module>
         <module>preactivex4</module>
+        <module>rxjava1</module>
         <module>simple1</module>
         <module>unittest1</module>
         <module>worker1</module>

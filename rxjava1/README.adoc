@@ -1,0 +1,3 @@
+= rxjava1
+
+Playing with pure RxJava.
