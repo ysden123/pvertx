@@ -31,6 +31,7 @@
         <module>preactivex4</module>
         <module>rxjava1</module>
         <module>simple1</module>
+        <module>stream</module>
         <module>unittest1</module>
         <module>worker1</module>
     </modules>
