@@ -11,10 +11,12 @@ import org.slf4j.LoggerFactory;
 /**
  * Chained use the deployVerticle and rxSend.
  *
+ * 1st request fails.
+ *
  * @author Yuriy Stul
  */
-public class CopyFileRunner {
-    private final static Logger logger = LoggerFactory.getLogger(CopyFileRunner.class);
+public class CopyFile1stErrorRunner {
+    private final static Logger logger = LoggerFactory.getLogger(CopyFile1stErrorRunner.class);
 
     public static void main(String[] args) {
         logger.info("==>main");
@@ -27,8 +29,8 @@ public class CopyFileRunner {
         // Deploy and send request to copy
         vertx.rxDeployVerticle(deployName)
                 .flatMap(id -> {
-                    logger.info("Copying 'text1.txt' to 'text1Copy.txt'");
-                    return vertx.eventBus().<String>rxSend(CopyFileVerticle.EB_ADDRESS, new CopyRequest("text1.txt", "text1Copy.txt"));
+                    logger.info("Copying 'ERROR.txt' to 'text1Copy.txt'");
+                    return vertx.eventBus().<String>rxSend(CopyFileVerticle.EB_ADDRESS, new CopyRequest("ERROR.txt", "text1Copy.txt"));
                 })
                 .flatMap(id -> {
                     logger.info("Copying 'text1.txt' to 'text2Copy.txt'");
@@ -37,7 +39,6 @@ public class CopyFileRunner {
                 .doFinally(vertx::close)
                 .subscribe(response -> logger.info("Result is {}", response.body()),
                         error -> logger.error("Failed with error {}", error.getMessage()));
-
         logger.info("<==main");
     }
 }
