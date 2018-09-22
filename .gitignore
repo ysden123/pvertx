@@ -33,3 +33,5 @@ pasyncfile/out/
 \.idea/
 
 test-files/
+
+results/

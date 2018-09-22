@@ -34,6 +34,7 @@ public class MessageEx01 {
     public static void main(String[] args) {
         logger.info("==>main");
         test1();
+        test2();
         logger.info("<==main");
     }
 
@@ -43,5 +44,19 @@ public class MessageEx01 {
         var msg = new MyMessage(json);
         logger.info(msg.body().toString());
         logger.info("<==test1");
+    }
+
+    private static void test2() {
+        logger.info("==>test2");
+        var json = new JsonObject().put("attr2", "333@@@444");
+        var msg = new MyMessage(json);
+        foo(msg);
+        logger.info("<==test2");
+    }
+
+    private static void foo(Message<JsonObject> msg) {
+        logger.info("==>foo");
+        logger.info(msg.body().toString());
+        logger.info("<==foo");
     }
 }
