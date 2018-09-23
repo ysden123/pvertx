@@ -14,6 +14,7 @@
     <modules>
         <module>asyncresult</module>
         <module>autoclose</module>
+        <module>basics</module>
         <module>bus-object</module>
         <module>deploy-options</module>
         <module>httpserver1</module>
@@ -30,6 +31,7 @@
         <module>preactivex4</module>
         <module>rxjava1</module>
         <module>simple1</module>
+        <module>stream</module>
         <module>unittest1</module>
         <module>worker1</module>
     </modules>
