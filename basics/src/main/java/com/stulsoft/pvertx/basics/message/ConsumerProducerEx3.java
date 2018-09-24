@@ -10,12 +10,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Usage the MessageConsumer and MessageProvider.
+ * Usage the MessageConsumer and MessageProvider with flowable and response from message handler.
  *
  * @author Yuriy Stul
  */
-public class ConsumerProducerEx1 {
-    private static final Logger logger = LoggerFactory.getLogger(ConsumerProducerEx1.class);
+public class ConsumerProducerEx3 {
+    private static final Logger logger = LoggerFactory.getLogger(ConsumerProducerEx3.class);
     private static final String EB_CONSUMER = "consumer";
 
     public static void main(String[] args) {
@@ -29,19 +29,23 @@ public class ConsumerProducerEx1 {
     }
 
     private static void consumerHandler(Message<String> msg) {
-        logger.info("Handling {}", msg.body());
+        logger.info("(1) Handling {}", msg.body());
+        msg.reply("Handled " + msg.body());
     }
 
     private static void test1(final Vertx vertx) {
         logger.info("==>test1");
-        var consumer = vertx.eventBus().<String>consumer(EB_CONSUMER);
-        consumer.handler(ConsumerProducerEx1::consumerHandler);
+        vertx.eventBus()
+                .<String>consumer(EB_CONSUMER)
+                .toFlowable()
+                .subscribe(ConsumerProducerEx3::consumerHandler);
 
-        vertx.eventBus().send(EB_CONSUMER, "msg1");
-        vertx.eventBus().send(EB_CONSUMER, "msg2");
-        vertx.eventBus().send(EB_CONSUMER, "msg3");
-        vertx.eventBus().send(EB_CONSUMER, "msg4");
-        vertx.eventBus().send(EB_CONSUMER, "msg5");
+        vertx.eventBus().<String>send(EB_CONSUMER, "msg1", r -> logger.info("(2) Result: {}", r.result().body()));
+        vertx.eventBus().<String>send(EB_CONSUMER, "msg2", r -> logger.info("(2) Result: {}", r.result().body()));
+        vertx.eventBus().<String>send(EB_CONSUMER, "msg3", r -> logger.info("(2) Result: {}", r.result().body()));
+        vertx.eventBus().<String>send(EB_CONSUMER, "msg4", r -> logger.info("(2) Result: {}", r.result().body()));
+        vertx.eventBus().<String>send(EB_CONSUMER, "msg5", r -> logger.info("(2) Result: {}", r.result().body()));
+
         logger.info("<==test1");
     }
 

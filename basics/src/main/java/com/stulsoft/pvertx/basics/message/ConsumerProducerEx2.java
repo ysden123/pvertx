@@ -10,12 +10,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Usage the MessageConsumer and MessageProvider.
+ * Usage the MessageConsumer and MessageProvider with flowable.
  *
  * @author Yuriy Stul
  */
-public class ConsumerProducerEx1 {
-    private static final Logger logger = LoggerFactory.getLogger(ConsumerProducerEx1.class);
+public class ConsumerProducerEx2 {
+    private static final Logger logger = LoggerFactory.getLogger(ConsumerProducerEx2.class);
     private static final String EB_CONSUMER = "consumer";
 
     public static void main(String[] args) {
@@ -34,14 +34,17 @@ public class ConsumerProducerEx1 {
 
     private static void test1(final Vertx vertx) {
         logger.info("==>test1");
-        var consumer = vertx.eventBus().<String>consumer(EB_CONSUMER);
-        consumer.handler(ConsumerProducerEx1::consumerHandler);
+        vertx.eventBus()
+                .<String>consumer(EB_CONSUMER)
+                .toFlowable()
+                .subscribe(ConsumerProducerEx2::consumerHandler);
 
         vertx.eventBus().send(EB_CONSUMER, "msg1");
         vertx.eventBus().send(EB_CONSUMER, "msg2");
         vertx.eventBus().send(EB_CONSUMER, "msg3");
         vertx.eventBus().send(EB_CONSUMER, "msg4");
         vertx.eventBus().send(EB_CONSUMER, "msg5");
+
         logger.info("<==test1");
     }
 
