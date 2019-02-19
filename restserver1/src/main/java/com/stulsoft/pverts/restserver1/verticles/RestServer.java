@@ -4,15 +4,19 @@
 
 package com.stulsoft.pverts.restserver1.verticles;
 
+import com.stulsoft.pverts.restserver1.data.ServiceStatus;
 import io.reactivex.Single;
 import io.reactivex.disposables.Disposable;
 import io.vertx.core.Future;
+import io.vertx.core.json.Json;
 import io.vertx.reactivex.core.AbstractVerticle;
 import io.vertx.reactivex.ext.web.Router;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.concurrent.*;
+import java.util.Arrays;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * @author Yuriy Stul
@@ -71,7 +75,10 @@ public class RestServer extends AbstractVerticle {
                     logger.info("/v1/status/all");
                     someDisposable = all()
                             .toObservable()
-                            .subscribe(response -> routingContext.response().end(response));
+                            .subscribe(response -> routingContext
+                                    .response()
+                                    .putHeader("content-type", "application/json")
+                                    .end(response));
                 });
 
         router.get("/v1/status/service/:name").
@@ -80,7 +87,10 @@ public class RestServer extends AbstractVerticle {
                     logger.info("/v1/status/service/{}", name);
                     someDisposable = serviceByName(name)
                             .toObservable()
-                            .subscribe(response -> routingContext.response().end(response),
+                            .subscribe(response -> routingContext
+                                            .response()
+                                            .putHeader("content-type", "application/json")
+                                            .end(response),
                                     error -> routingContext
                                             .response()
                                             .setStatusCode(201)
@@ -94,7 +104,10 @@ public class RestServer extends AbstractVerticle {
                     logger.info("/v1/status/service/{}/id/{}", name, id);
                     someDisposable = serviceByNameId(name, id)
                             .toObservable()
-                            .subscribe(response -> routingContext.response().end(response),
+                            .subscribe(response -> routingContext
+                                            .response()
+                                            .putHeader("content-type", "application/json")
+                                            .end(response),
                                     error -> routingContext
                                             .response()
                                             .setStatusCode(201)
@@ -105,7 +118,12 @@ public class RestServer extends AbstractVerticle {
     }
 
     private Single<String> all() {
-        var future = es.submit(() -> "List of all statuses");
+        var result = Arrays.asList(
+                new ServiceStatus("service_1", "1", "OK")
+                , new ServiceStatus("service_2", "2", "ERROR")
+                , new ServiceStatus("service_3", "3", "OK")
+        );
+        var future = es.submit(() -> Json.encode(result));
         return Single.fromFuture(future);
     }
 
@@ -113,7 +131,7 @@ public class RestServer extends AbstractVerticle {
         if (name.equals("error")) {
             return Single.error(new RuntimeException("Not existing service " + name));
         } else {
-            return Single.fromFuture(es.submit(() -> "Service with name " + name));
+            return Single.fromFuture(es.submit(() -> Json.encode(new ServiceStatus("name", "1", "OK"))));
         }
     }
 
@@ -123,7 +141,7 @@ public class RestServer extends AbstractVerticle {
         } else if (id.equals("error")) {
             return Single.error(new RuntimeException("Not existing id " + id));
         } else {
-            return Single.fromFuture(es.submit(() -> "Service with name " + name + " and id " + id));
+            return Single.fromFuture(es.submit(() -> Json.encode(new ServiceStatus(name, id, "OK"))));
         }
     }
 }
