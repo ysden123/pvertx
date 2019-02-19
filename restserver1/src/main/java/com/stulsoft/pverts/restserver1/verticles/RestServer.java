@@ -5,6 +5,8 @@
 package com.stulsoft.pverts.restserver1.verticles;
 
 import com.stulsoft.pverts.restserver1.data.ServiceStatus;
+import com.typesafe.config.Config;
+import com.typesafe.config.ConfigFactory;
 import io.reactivex.Single;
 import io.reactivex.disposables.Disposable;
 import io.vertx.core.Future;
@@ -39,12 +41,16 @@ public class RestServer extends AbstractVerticle {
     public void start(Future<Void> startFuture) {
         logger.info("Starting RestServer...");
 
+        Config conf = ConfigFactory.load();
+
+        int port = conf.getInt("port");
+
         server = vertx.createHttpServer()
                 .requestHandler(createRouter()::accept)
-                .rxListen(8080)
+                .rxListen(port)
                 .toObservable()
                 .subscribe(httpServer -> {
-                    logger.info("Started server on 8080");
+                    logger.info("Started server on {}", port);
                     startFuture.complete();
                 }, t -> startFuture.fail(t.getMessage()));
 
