@@ -29,6 +29,7 @@
         <module>preactivex2</module>
         <module>preactivex3</module>
         <module>preactivex4</module>
+        <module>restserver1</module>
         <module>rxjava1</module>
         <module>simple1</module>
         <module>stream</module>
@@ -36,14 +37,15 @@
         <module>worker1</module>
     </modules>
     <properties>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
         <vertx.version>3.5.3</vertx.version>
         <slf4j.version>1.7.25</slf4j.version>
         <log4jSlf4j.version>2.11.0</log4jSlf4j.version>
         <reactivex.version>2.1.17</reactivex.version>
         <typesafe.version>1.3.3</typesafe.version>
         <junit.version>4.12</junit.version>
-        <maven.compiler.plugin.version>3.7.0</maven.compiler.plugin.version>
-        <java.version>10</java.version>
+        <maven.compiler.plugin.version>3.8.0</maven.compiler.plugin.version>
     </properties>
 
     <dependencies>
@@ -94,19 +96,4 @@
             <version>${log4jSlf4j.version}</version>
         </dependency>
     </dependencies>
-
-    <build>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <version>${maven.compiler.plugin.version}</version>
-                    <configuration>
-                        <source>${java.version}</source>
-                        <target>${java.version}</target>
-                    </configuration>
-                </plugin>
-            </plugins>
-        </pluginManagement>
-    </build>
 </project>
