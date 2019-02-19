@@ -76,6 +76,11 @@ public class RestServer extends AbstractVerticle {
         logger.info("Creating router");
         Router router = Router.router(vertx);
 
+        router.get("/")
+                .handler(routingContext -> routingContext
+                        .response()
+                        .sendFile("index.html"));
+
         router.get("/v1/status/all")
                 .handler(routingContext -> {
                     logger.info("/v1/status/all");
