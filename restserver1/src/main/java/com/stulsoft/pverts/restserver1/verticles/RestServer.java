@@ -13,6 +13,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.Json;
 import io.vertx.reactivex.core.AbstractVerticle;
 import io.vertx.reactivex.ext.web.Router;
+import io.vertx.reactivex.ext.web.RoutingContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -86,10 +87,7 @@ public class RestServer extends AbstractVerticle {
                     logger.info("/v1/status/all");
                     someDisposable = all()
                             .toObservable()
-                            .subscribe(response -> routingContext
-                                    .response()
-                                    .putHeader("content-type", "application/json")
-                                    .end(response));
+                            .subscribe(response -> sendJson(response, routingContext));
                 });
 
         router.get("/v1/status/service/:name").
@@ -98,14 +96,8 @@ public class RestServer extends AbstractVerticle {
                     logger.info("/v1/status/service/{}", name);
                     someDisposable = serviceByName(name)
                             .toObservable()
-                            .subscribe(response -> routingContext
-                                            .response()
-                                            .putHeader("content-type", "application/json")
-                                            .end(response),
-                                    error -> routingContext
-                                            .response()
-                                            .setStatusCode(201)
-                                            .end(error.getMessage()));
+                            .subscribe(response -> sendJson(response, routingContext),
+                                    error -> sendError(error, routingContext));
                 });
 
         router.get("/v1/status/service/:name/id/:id").
@@ -115,14 +107,8 @@ public class RestServer extends AbstractVerticle {
                     logger.info("/v1/status/service/{}/id/{}", name, id);
                     someDisposable = serviceByNameId(name, id)
                             .toObservable()
-                            .subscribe(response -> routingContext
-                                            .response()
-                                            .putHeader("content-type", "application/json")
-                                            .end(response),
-                                    error -> routingContext
-                                            .response()
-                                            .setStatusCode(201)
-                                            .end(error.getMessage()));
+                            .subscribe(response -> sendJson(response, routingContext),
+                                    error -> sendError(error, routingContext));
                 });
 
         return router;
@@ -154,5 +140,18 @@ public class RestServer extends AbstractVerticle {
         } else {
             return Single.fromFuture(es.submit(() -> Json.encode(new ServiceStatus(name, id, "OK"))));
         }
+    }
+
+    private void sendJson(String json, RoutingContext routingContext) {
+        routingContext.response()
+                .putHeader("content-type", "application/json")
+                .end(json);
+    }
+
+    private void sendError(Throwable error, RoutingContext routingContext) {
+        routingContext
+                .response()
+                .setStatusCode(201)
+                .end(error.getMessage());
     }
 }
