@@ -10,14 +10,14 @@ import com.typesafe.config.ConfigFactory;
 import io.reactivex.Single;
 import io.reactivex.disposables.Disposable;
 import io.vertx.core.Future;
-import io.vertx.core.json.Json;
+import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
 import io.vertx.reactivex.core.AbstractVerticle;
 import io.vertx.reactivex.ext.web.Router;
 import io.vertx.reactivex.ext.web.RoutingContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Arrays;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -114,38 +114,42 @@ public class RestServer extends AbstractVerticle {
         return router;
     }
 
-    private Single<String> all() {
-        var result = Arrays.asList(
-                new ServiceStatus("service_1", "1", "OK")
-                , new ServiceStatus("service_2", "2", "ERROR")
-                , new ServiceStatus("service_3", "3", "OK")
-        );
-        var future = es.submit(() -> Json.encode(result));
-        return Single.fromFuture(future);
+    private Single<JsonArray> all() {
+        var result = new JsonArray()
+                .add(JsonObject.mapFrom(new ServiceStatus("service_1", "1", "OK")))
+                .add(JsonObject.mapFrom(new ServiceStatus("service_2", "2", "ERROR")))
+                .add(JsonObject.mapFrom(new ServiceStatus("service_3", "3", "OK")));
+        return Single.fromFuture(es.submit(() -> result));
     }
 
-    private Single<String> serviceByName(String name) {
+    private Single<JsonObject> serviceByName(String name) {
         if (name.equals("error")) {
             return Single.error(new RuntimeException("Not existing service " + name));
         } else {
-            return Single.fromFuture(es.submit(() -> Json.encode(new ServiceStatus("name", "1", "OK"))));
+            return Single.fromFuture(es.submit(() -> JsonObject.mapFrom(new ServiceStatus("name", "1", "OK"))));
         }
     }
 
-    private Single<String> serviceByNameId(String name, String id) {
+    private Single<JsonObject> serviceByNameId(String name, String id) {
         if (name.equals("error")) {
             return Single.error(new RuntimeException("Not existing service " + name));
         } else if (id.equals("error")) {
             return Single.error(new RuntimeException("Not existing id " + id));
         } else {
-            return Single.fromFuture(es.submit(() -> Json.encode(new ServiceStatus(name, id, "OK"))));
+            return Single.fromFuture(es.submit(() -> JsonObject.mapFrom(new ServiceStatus(name, id, "OK"))));
         }
     }
 
-    private void sendJson(String json, RoutingContext routingContext) {
+    private void sendJson(JsonObject json, RoutingContext routingContext) {
         routingContext.response()
                 .putHeader("content-type", "application/json")
-                .end(json);
+                .end(json.toString());
+    }
+
+    private void sendJson(JsonArray json, RoutingContext routingContext) {
+        routingContext.response()
+                .putHeader("content-type", "application/json")
+                .end(json.toString());
     }
 
     private void sendError(Throwable error, RoutingContext routingContext) {
