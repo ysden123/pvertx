@@ -22,6 +22,7 @@
         <module>pasyncfile</module>
         <module>pconfig</module>
         <module>pconfig2</module>
+        <module>pconfig3</module>
         <module>pfuture</module>
         <module>pfuture2</module>
         <module>pjson</module>
