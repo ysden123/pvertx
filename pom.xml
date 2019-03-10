@@ -16,6 +16,7 @@
         <module>autoclose</module>
         <module>basics</module>
         <module>bus-object</module>
+        <module>common</module>
         <module>deploy-options</module>
         <module>httpserver1</module>
         <module>httpserver2</module>

@@ -21,16 +21,5 @@ public class RestServer1Main {
 
         logger.info("Deploying restServer...");
         vertx.deployVerticle(RestServer.class.getName());
-
-/*
-        System.out.println("For end enter any line");
-        Scanner sc = new Scanner(System.in);
-        sc.next();
-        sc.close();
-
-        logger.info("Stopping Vertx...");
-        vertx.close();
-        logger.info("<==main");
-*/
     }
 }

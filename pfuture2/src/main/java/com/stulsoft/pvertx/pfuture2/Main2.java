@@ -21,10 +21,10 @@ public class Main2 {
         Future<String> result1 = f1();
         result1.setHandler(ar -> logger.info("Result: {}", ar.result()));
 
-        System.out.println("For end enter any line");
-        Scanner sc = new Scanner(System.in);
-        sc.next();
-        sc.close();
+        System.out.println("For end enter some line");
+        Scanner sc1 = new Scanner(System.in);
+        sc1.next();
+        sc1.close();
 
         logger.info("Stopped Main2");
     }

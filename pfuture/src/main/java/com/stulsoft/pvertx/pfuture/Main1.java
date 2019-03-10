@@ -1,11 +1,10 @@
 package com.stulsoft.pvertx.pfuture;
 
+import com.stulsoft.pvertx.common.Terminator;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.Scanner;
 
 /**
  * @author Yuriy Stul
@@ -35,21 +34,16 @@ public class Main1 {
         logger.info("Call foo");
         Future<String> result = foo();
 
-        result.setHandler(ar->{
-           if (ar.succeeded()){
-               logger.info("Result: {}", ar.result());
-           }else{
-               logger.error("Error: {}", ar.cause().getMessage());
-           }
+        result.setHandler(ar -> {
+            if (ar.succeeded()) {
+                logger.info("Result: {}", ar.result());
+            } else {
+                logger.error("Error: {}", ar.cause().getMessage());
+            }
         });
 
 
-        System.out.println("For end enter any line");
-        Scanner sc = new Scanner(System.in);
-        sc.next();
-        sc.close();
-
-        vertx.close();
+        Terminator.terminate(vertx);
         logger.info("Finish");
     }
 }
