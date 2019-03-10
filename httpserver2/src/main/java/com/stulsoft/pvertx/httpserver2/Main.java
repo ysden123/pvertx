@@ -1,16 +1,13 @@
 package com.stulsoft.pvertx.httpserver2;
 
-import java.util.Scanner;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import com.stulsoft.pvertx.common.Terminator;
 import com.stulsoft.pvertx.httpserver2.verticles.HttpServer;
 import com.stulsoft.pvertx.httpserver2.verticles.Service;
 import com.stulsoft.pvertx.httpserver2.verticles.Service2;
-
 import io.vertx.core.Verticle;
 import io.vertx.core.Vertx;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Yuriy Stul
@@ -29,18 +26,13 @@ public class Main {
         Verticle service2 = new Service2();
         vertx.deployVerticle(service2);
 
-        Verticle httpServer = new HttpServer();
+        var httpServer2 = new HttpServer();
 
         logger.info("Deploying HttpServer");
-        vertx.deployVerticle(httpServer);
+        vertx.deployVerticle(httpServer2);
 
-        System.out.println("For end enter any line");
-        Scanner sc = new Scanner(System.in);
-        sc.next();
-        sc.close();
+        Terminator.terminate(vertx);
 
-        logger.info("Stopping Vertx...");
-        vertx.close();
         logger.info("Stopped Main");
     }
 }

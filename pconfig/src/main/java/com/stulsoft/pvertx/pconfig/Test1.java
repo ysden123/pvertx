@@ -1,5 +1,6 @@
 package com.stulsoft.pvertx.pconfig;
 
+import com.stulsoft.pvertx.common.Terminator;
 import io.vertx.core.Verticle;
 import io.vertx.core.Vertx;
 import org.slf4j.Logger;
@@ -25,12 +26,7 @@ public class Test1 {
             vertx.deployVerticle(v1);
         });
 
-        System.out.println("For end enter any line");
-        Scanner sc = new Scanner(System.in);
-        sc.next();
-        sc.close();
-
-        vertx.close();
+        Terminator.terminate(vertx);
         logger.info("Finished Test1");
     }
 }

@@ -4,16 +4,12 @@
 
 package com.stulsoft.pvertx.pconfig2;
 
-import io.vertx.config.ConfigRetriever;
-import io.vertx.config.ConfigRetrieverOptions;
-import io.vertx.config.ConfigStoreOptions;
+import com.stulsoft.pvertx.common.ConfigRetrieverFactory;
+import com.stulsoft.pvertx.common.Terminator;
 import io.vertx.core.DeploymentOptions;
 import io.vertx.core.Vertx;
-import io.vertx.core.json.JsonObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.Scanner;
 
 /**
  * @author Yuriy Stul
@@ -27,15 +23,9 @@ public class Main {
         Vertx vertx = Vertx.vertx();
         Verticle1 v1 = new Verticle1();
 
-        ConfigStoreOptions fileStore = new ConfigStoreOptions()
-                .setType("file")
-                .setConfig(new JsonObject().put("path", "conf/config.json"));
 
-        ConfigRetrieverOptions options = new ConfigRetrieverOptions()
-                .addStore(fileStore);
-        ConfigRetriever retriever = ConfigRetriever.create(vertx, options);
-
-        retriever.getConfig(ar -> {
+        var configRetriever = ConfigRetrieverFactory.configRetriever(vertx, "conf/config.json");
+        configRetriever.getConfig(ar -> {
             if (ar.failed()) {
                 logger.error("Failed getting configuration. {}", ar.cause().getMessage());
             } else {
@@ -45,12 +35,7 @@ public class Main {
             }
         });
 
-        System.out.println("For end enter any line");
-        Scanner sc = new Scanner(System.in);
-        sc.next();
-        sc.close();
-
-        vertx.close();
+        Terminator.terminate(vertx);
         logger.info("Completed Main");
     }
 }

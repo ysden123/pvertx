@@ -4,6 +4,7 @@
 
 package com.stulsoft.pvertx.pconfig;
 
+import com.stulsoft.pvertx.common.Terminator;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -29,12 +30,7 @@ public class Test2 {
             showConf();
         });
 
-        System.out.println("For end enter any line");
-        Scanner sc = new Scanner(System.in);
-        sc.next();
-        sc.close();
-
-        vertx.close();
+        Terminator.terminate(vertx);
         logger.info("Finished Test`");
     }
 

@@ -20,10 +20,10 @@ public class Main1 {
         logger.info("Started Main1");
         Future<String> result1 = f1();
 
-        System.out.println("For end enter any line");
-        Scanner sc = new Scanner(System.in);
-        sc.next();
-        sc.close();
+        System.out.println("For end enter a line");
+        Scanner sc2 = new Scanner(System.in);
+        sc2.next();
+        sc2.close();
 
         logger.info("Result: {}", result1.result());
 
