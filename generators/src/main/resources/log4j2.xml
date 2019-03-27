@@ -8,7 +8,7 @@
         <Console name="Console" target="SYSTEM_OUT">
             <PatternLayout pattern="%d{ HH:mm:ss.SSS} [%t] %-5level %logger(%line) - %msg%n"/>
         </Console>
-        <File name="File" fileName="log/generator.log" append="false">
+        <File name="File" fileName="log/generators.log" append="false">
             <PatternLayout pattern="%d{yyyy:MM:dd HH:mm:ss.SSS} [%t] %-5level %logger(%line) - %msg%n"/>
         </File>
     </Appenders>

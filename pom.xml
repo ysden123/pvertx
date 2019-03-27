@@ -18,7 +18,7 @@
         <module>bus-object</module>
         <module>common</module>
         <module>deploy-options</module>
-        <module>generator</module>
+        <module>generators</module>
         <module>httpserver1</module>
         <module>httpserver2</module>
         <module>pasyncfile</module>

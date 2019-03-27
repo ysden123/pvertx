@@ -14,10 +14,10 @@
         <artifactId>pvertx</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
-    <artifactId>generator</artifactId>
-    <name>generator</name>
+    <artifactId>generators</artifactId>
+    <name>generators</name>
     <version>1.0-SNAPSHOT</version>
-    <description>Playing generators on Vertx</description>
+    <description>Playing with generators on Vertx</description>
 
     <dependencies>
         <dependency>
