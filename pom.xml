@@ -18,7 +18,6 @@
         <module>bus-object</module>
         <module>common</module>
         <module>deploy-options</module>
-        <module>generators</module>
         <module>httpserver1</module>
         <module>httpserver2</module>
         <module>pasyncfile</module>
@@ -37,6 +36,7 @@
         <module>simple1</module>
         <module>stream</module>
         <module>unittest1</module>
+        <module>upload-server</module>
         <module>worker1</module>
     </modules>
     <properties>
