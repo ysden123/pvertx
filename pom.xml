@@ -36,6 +36,7 @@
         <module>simple1</module>
         <module>stream</module>
         <module>unittest1</module>
+        <module>upload-server</module>
         <module>worker1</module>
     </modules>
     <properties>

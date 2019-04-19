@@ -5,14 +5,15 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>preactivex4</artifactId>
     <parent>
         <groupId>com.stulsoft</groupId>
         <artifactId>pvertx</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
-    <version>1.0-SNAPSHOT</version>
+
+    <artifactId>preactivex4</artifactId>
     <name>preactivex4</name>
+    <version>1.0-SNAPSHOT</version>
     <description>Playing with ReactiveX and Vertx</description>
 
     <dependencies>
