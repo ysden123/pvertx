@@ -1,0 +1,19 @@
+= clustered1
+
+Playing with clustered Pvertx
+
+See original code here https://github.com/hakdogan/IntroduceToEclicpseVert.x
+
+== Running the application in cluster mode from IDE
+* Run SenderRunner
+* Run ReceiverRunner1
+* Run ReceiverRunner2
+
+== Running from command line
+//`mvn clean package`
+//
+//`java -jar target/clustered1-0.0.1-SNAPSHOT-fat.jar run com.stulsoft.pvertx.clustered.producer.WebServiceStatusProducer -cluster`
+//
+//`java -jar target/clustered1-0.0.1-SNAPSHOT-fat.jar run com.stulsoft.pvertx.clustered.consumer.Monitoring -cluster`
+//
+//`java -jar target/clustered1-0.0.1-SNAPSHOT-fat.jar run com.stulsoft.pvertx.clustered.consumer.RebootConsumer -cluster`
