@@ -20,7 +20,7 @@ public class ReceiverRunner {
 
     public static void run() {
         logger.info("==>run");
-        final var mgr = new HazelcastClusterManager();
+        final var mgr = new HazelcastClusterManager(ClusterConfiguratorHelper.getHazelcastConfiguration());
         final var options = new VertxOptions().setClusterManager(mgr);
         Vertx.clusteredVertx(options, cluster -> {
             if (cluster.succeeded()) {
