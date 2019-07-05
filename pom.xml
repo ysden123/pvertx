@@ -12,6 +12,7 @@
     <name>Playing with Vertx</name>
 
     <modules>
+        <module>ask</module>
         <module>asyncresult</module>
         <module>autoclose</module>
         <module>basics</module>
@@ -43,7 +44,6 @@
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
-<!--        <vertx.version>3.5.3</vertx.version>-->
         <vertx.version>3.7.1</vertx.version>
         <slf4j.version>1.7.25</slf4j.version>
         <log4jSlf4j.version>2.11.0</log4jSlf4j.version>
