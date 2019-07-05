@@ -25,7 +25,8 @@ public class MainVerticle extends AbstractVerticle {
 
         vertx.deployVerticle(MainVerticle.class.getName(), mainDeployResult -> {
             if (mainDeployResult.succeeded()) {
-                var jobRunner = new JobRunner(vertx);
+//                var jobRunner = new JobRunner(vertx); // Doesn't work
+                var jobRunner = new JobRunner2(vertx);
 
                 logger.info("Executing job ...");
                 try {

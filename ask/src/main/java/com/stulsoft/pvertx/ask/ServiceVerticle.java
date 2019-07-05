@@ -30,9 +30,16 @@ public class ServiceVerticle extends AbstractVerticle {
     private void handler(Message<JsonObject> msg) {
         logger.info("ServiceVerticle: handling {}", msg.body().encodePrettily());
 
-            vertx.setTimer(500, l->{
-                logger.info("ServiceVerticle: completed");
-                msg.reply(new JsonObject().put("result", "Done 1"));
-            });
+        vertx.setTimer(500, l -> {
+            logger.info("ServiceVerticle: completed");
+            msg.reply(new JsonObject().put("result", "Done 1"),
+                    replyResult -> {
+                        if (replyResult.succeeded())
+                            logger.info("Succeeded to reply");
+                        else
+                            logger.error("Failed to reply {}", replyResult.cause().getMessage());
+                    }
+            );
+        });
     }
 }
