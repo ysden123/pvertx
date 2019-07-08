@@ -1,0 +1,11 @@
+= ask
+
+Demonstrates wrong way of using Vertx.
+
+_MainVerticle_ deploys _ServiceVerticle_, creates _JobRunner_ and calls _execute_ method.
+
+_execute_ method of _JobRunner_ sends message to _ServiceVerticle_ and waits.
+
+There we have a problem with blocked thread.
+
+__DON'T USE THIS APPROACH!__
