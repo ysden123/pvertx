@@ -1,0 +1,6 @@
+= httpserver-cluster
+
+This project is a simple HTTP Server starter project with Vertx and with cluster.
+
+Usage of Verticles.
+Communication between verticles by messages.

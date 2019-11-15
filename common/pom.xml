@@ -18,4 +18,12 @@
     <name>Common utilities</name>
     <description>Common utilities</description>
 
+    <dependencies>
+        <dependency>
+            <groupId>io.vertx</groupId>
+            <artifactId>vertx-rx-java2</artifactId>
+            <version>${vertx.version}</version>
+        </dependency>
+    </dependencies>
+
 </project>
