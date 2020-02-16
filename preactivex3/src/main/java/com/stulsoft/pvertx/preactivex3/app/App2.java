@@ -30,16 +30,14 @@ public class App2 extends AbstractVerticle {
                 .rxDeployVerticle("com.stulsoft.pvertx.preactivex3.app.App2")
                 .subscribe(s -> {
                     logger.info("success = [{}]", s);
-                    vertx.eventBus().send(EB_ADDRESS, "go!", totalRes -> {
+                    vertx.eventBus().request(EB_ADDRESS, "go!", totalRes -> {
                         if (totalRes.succeeded()) {
                             logger.info("Total result [{}]", totalRes.result().body().toString());
                         } else {
                             logger.error(totalRes.cause().getMessage(), totalRes.cause());
                         }
                     });
-                }, t -> {
-                    logger.error("error = [{}]", t.getMessage());
-                });
+                }, t -> logger.error("error = [{}]", t.getMessage()));
         vertx.setTimer(1000, l -> {
             d.dispose();
             vertx.close();
@@ -63,10 +61,10 @@ public class App2 extends AbstractVerticle {
         logger.info("==>handler with message {}", message.body());
         var m1 = vertx
                 .eventBus()
-                .rxSend(V1.EB_ADDRESS, "do d1");
+                .rxRequest(V1.EB_ADDRESS, "do d1");
         var m2 = vertx
                 .eventBus()
-                .rxSend(V2.EB_ADDRESS, "do d2");
+                .rxRequest(V2.EB_ADDRESS, "do d2");
         m1.subscribe(r1 -> {
             logger.info("Response from d1 [{}]", r1.body().toString());
             m2.subscribe(r2 -> {

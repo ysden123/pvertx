@@ -6,6 +6,7 @@ package com.stulsoft.pvertx.pjson;
 
 import io.vertx.core.file.OpenOptions;
 import io.vertx.reactivex.core.Future;
+import io.vertx.reactivex.core.Promise;
 import io.vertx.reactivex.core.Vertx;
 import io.vertx.reactivex.core.buffer.Buffer;
 import org.slf4j.Logger;
@@ -22,7 +23,7 @@ public class DataGenerator {
     }
 
     static Future<Void> buildSimpleJson(final Vertx vertx, final String fileName, final int size) {
-        Future<Void> future = Future.future();
+        Promise<Void> promise = Promise.promise();
         mkPath(vertx);
         vertx.fileSystem()
                 .open(path + "/" + fileName,
@@ -40,17 +41,17 @@ public class DataGenerator {
                                 file.write(Buffer.buffer(String.format("\"key%d\":\"value %d\"%n", size, size)));
                                 file.write(Buffer.buffer("}"));
                                 file.end();
-                                future.complete();
+                                promise.complete();
                             } else {
                                 logger.error(openRes.cause().getMessage(), openRes.cause());
-                                future.fail(openRes.cause());
+                                promise.fail(openRes.cause());
                             }
                         });
-        return future;
+        return promise.future();
     }
 
     static Future<Void> buildJsonArray(final Vertx vertx, final String fileName, final int size) {
-        Future<Void> future = Future.future();
+        Promise<Void> promise = Promise.promise();
         mkPath(vertx);
         vertx.fileSystem()
                 .open(path + "/" + fileName,
@@ -78,13 +79,13 @@ public class DataGenerator {
                                 }
                                 file.write(Buffer.buffer("]"));
                                 file.end();
-                                future.complete();
+                                promise.complete();
                             } else {
                                 logger.error(openRes.cause().getMessage(), openRes.cause());
-                                future.fail(openRes.cause());
+                                promise.fail(openRes.cause());
                             }
                         });
-        return future;
+        return promise.future();
     }
 
     private static void mkPath(final Vertx vertx) {

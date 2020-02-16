@@ -4,8 +4,7 @@
 
 package com.stulsoft.pvertx.stream.copy;
 
-import io.reactivex.Single;
-import io.vertx.core.Future;
+import io.vertx.core.Promise;
 import io.vertx.core.file.OpenOptions;
 import io.vertx.reactivex.core.AbstractVerticle;
 import io.vertx.reactivex.core.eventbus.Message;
@@ -22,21 +21,12 @@ public class CopyFileVerticle extends AbstractVerticle {
 
     public static final String EB_ADDRESS = "copy.file.verticle";
 
-
-    /**
-     * Start the verticle.<p>
-     * This is called by Vert.x when the verticle instance is deployed. Don't call it yourself.<p>
-     * If your verticle does things in its startup which take some time then you can override this method
-     * and call the startFuture some time later when start up is complete.
-     *
-     * @param startFuture a future which should be called when verticle start-up is complete.
-     */
     @Override
-    public void start(Future<Void> startFuture) {
+    public void start(Promise<Void> startPromise) {
         logger.info("Starting {} ...", getClass().getSimpleName());
         vertx.eventBus().consumer(EB_ADDRESS, this::handler);
         logger.info("<==start");
-        startFuture.complete();
+        startPromise.complete();
     }
 
     /**
@@ -59,7 +49,7 @@ public class CopyFileVerticle extends AbstractVerticle {
         if (!fs.existsBlocking("results"))
             fs.mkdirsBlocking("results");
 
-        AsyncFile asyncReadFile[] = {null};
+        AsyncFile[] asyncReadFile = {null};
         fs.rxOpen(msg.body().srcFileName(), new OpenOptions().setCreate(false).setRead(true))
                 .flatMap(theAsyncReadFile -> {
                     logger.info("Opened file to read");

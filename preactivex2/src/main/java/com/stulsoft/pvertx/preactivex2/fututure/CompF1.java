@@ -6,6 +6,7 @@ package com.stulsoft.pvertx.preactivex2.fututure;
 
 import io.vertx.rxjava.core.CompositeFuture;
 import io.vertx.rxjava.core.Future;
+import io.vertx.rxjava.core.Promise;
 import io.vertx.rxjava.core.Vertx;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,18 +30,18 @@ public class CompF1 {
 
     private Future<String> f1() {
         logger.info("==>f1");
-        var f = Future.<String>future();
-        vertx.setTimer(1000, l -> f.complete("done 1"));
+        var p = Promise.<String>promise();
+        vertx.setTimer(1000, l -> p.complete("done 1"));
         logger.info("<==f1");
-        return f;
+        return p.future();
     }
 
     private Future<String> f2() {
         logger.info("==>f2");
-        var f = Future.<String>future();
-        vertx.setTimer(1100, l -> f.complete("done 2"));
+        var p = Promise.<String>promise();
+        vertx.setTimer(1100, l -> p.complete("done 2"));
         logger.info("<==f2");
-        return f;
+        return p.future();
     }
 
     private void runtTest() {

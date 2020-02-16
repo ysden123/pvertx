@@ -2,6 +2,7 @@ package com.stulsoft.pvertx.simple1;
 
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Future;
+import io.vertx.core.Promise;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,14 +13,14 @@ import org.slf4j.LoggerFactory;
 public class HttpService extends AbstractVerticle {
     private static Logger logger = LoggerFactory.getLogger(HttpService.class);
     @Override
-    public void start(Future<Void> startFuture){
+    public void start(Promise<Void> startPromise){
         logger.info("Started HttpService");
-        startFuture.complete();
+        startPromise.complete();
     }
 
     @Override
-    public void stop(Future<Void> stopFuture){
+    public void stop(Promise<Void> stopPromise){
         logger.info("Stopped HttpService");
-        stopFuture.complete();
+        stopPromise.complete();
     }
 }
