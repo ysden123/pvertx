@@ -6,7 +6,7 @@ package com.stulsoft.pvertx.upload.server;
 
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
-import io.vertx.core.Future;
+import io.vertx.core.Promise;
 import io.vertx.reactivex.core.AbstractVerticle;
 import io.vertx.reactivex.core.http.HttpServerRequest;
 import io.vertx.reactivex.ext.web.Router;
@@ -25,7 +25,7 @@ public class ServerVerticle extends AbstractVerticle {
     private static Logger logger = LoggerFactory.getLogger(ServerVerticle.class);
 
     @Override
-    public void start(Future<Void> startFuture) {
+    public void start(Promise<Void> startPromise) {
         logger.info("Starting HTTP server...");
         // todo
 
@@ -38,22 +38,22 @@ public class ServerVerticle extends AbstractVerticle {
         router.post("/upload").handler(this::uploadHandler);
 
         server
-                .requestHandler(router::accept)
+                .requestHandler(router)
                 .listen(port, listenResult -> {
                     if (listenResult.succeeded()) {
                         logger.info("Upload server is running on port {}", port);
-                        startFuture.complete();
+                        startPromise.complete();
                     } else {
                         logger.error("Failed start upload server. {}", listenResult.cause().getMessage());
-                        startFuture.fail(listenResult.cause());
+                        startPromise.fail(listenResult.cause());
                     }
                 });
     }
 
     @Override
-    public void stop(Future<Void> stopFuture) {
+    public void stop(Promise<Void> stopPromise) {
         logger.info("Stopping HTTP server...");
-        stopFuture.complete();
+        stopPromise.complete();
     }
 
     private void uploadHandler(final RoutingContext routingContext) {

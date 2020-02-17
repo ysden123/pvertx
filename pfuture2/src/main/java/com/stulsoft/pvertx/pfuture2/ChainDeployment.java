@@ -4,10 +4,7 @@
 
 package com.stulsoft.pvertx.pfuture2;
 
-import io.vertx.core.AbstractVerticle;
-import io.vertx.core.AsyncResult;
-import io.vertx.core.Future;
-import io.vertx.core.Vertx;
+import io.vertx.core.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,22 +26,23 @@ public class ChainDeployment extends AbstractVerticle {
     }
 
     @Override
-    public void start(Future<Void> startFuture) throws Exception {
+    public void start(Promise<Void> startPromise){
         logger.info("==>start");
-        var deployResult = Future.<AsyncResult>future();
+        var deployResult = Promise.<AsyncResult>promise();
 
-        deployResult.setHandler(r -> {
+        deployResult.future().setHandler(r -> {
             if (r.succeeded()) {
-                startFuture.complete();
+                startPromise.complete();
             } else {
-                startFuture.fail(r.cause());
+                startPromise.fail(r.cause());
             }
             vertx.close();
         });
 
         deploy("com.stulsoft.pvertx.pfuture2.V1")
                 .compose(r -> deploy("com.stulsoft.pvertx.pfuture2.V2"))
-                .compose(r -> deployResult.complete(), deployResult);
+                .compose(r -> deployResult.complete(),
+                        e -> deployResult.fail(e));
     }
 
     @Override
@@ -53,13 +51,13 @@ public class ChainDeployment extends AbstractVerticle {
     }
 
     private Future<AsyncResult> deploy(final String verticleName) {
-        Future<AsyncResult> result = Future.future();
+        Promise<AsyncResult> result = Promise.promise();
         vertx.deployVerticle(verticleName, deployResult -> {
             if (deployResult.succeeded())
                 result.complete(deployResult);
             else
                 result.fail(deployResult.cause().getMessage());
         });
-        return result;
+        return result.future();
     }
 }
