@@ -40,11 +40,11 @@ public class ConsumerProducerEx3 {
                 .toFlowable()
                 .subscribe(ConsumerProducerEx3::consumerHandler);
 
-        vertx.eventBus().<String>send(EB_CONSUMER, "msg1", r -> logger.info("(2) Result: {}", r.result().body()));
-        vertx.eventBus().<String>send(EB_CONSUMER, "msg2", r -> logger.info("(2) Result: {}", r.result().body()));
-        vertx.eventBus().<String>send(EB_CONSUMER, "msg3", r -> logger.info("(2) Result: {}", r.result().body()));
-        vertx.eventBus().<String>send(EB_CONSUMER, "msg4", r -> logger.info("(2) Result: {}", r.result().body()));
-        vertx.eventBus().<String>send(EB_CONSUMER, "msg5", r -> logger.info("(2) Result: {}", r.result().body()));
+        vertx.eventBus().<String>request(EB_CONSUMER, "msg1", r -> logger.info("(2) Result: {}", r.result().body()));
+        vertx.eventBus().<String>request(EB_CONSUMER, "msg2", r -> logger.info("(2) Result: {}", r.result().body()));
+        vertx.eventBus().<String>request(EB_CONSUMER, "msg3", r -> logger.info("(2) Result: {}", r.result().body()));
+        vertx.eventBus().<String>request(EB_CONSUMER, "msg4", r -> logger.info("(2) Result: {}", r.result().body()));
+        vertx.eventBus().<String>request(EB_CONSUMER, "msg5", r -> logger.info("(2) Result: {}", r.result().body()));
 
         logger.info("<==test1");
     }

@@ -23,11 +23,8 @@ public class App1 extends AbstractVerticle {
         var vertx = Vertx.vertx();
         var d = vertx
                 .rxDeployVerticle("com.stulsoft.pvertx.preactivex3.app.App1")
-                .subscribe(s -> {
-                    logger.info("success = [{}]", s);
-                }, t -> {
-                    logger.error("error = [{}]", t.getMessage());
-                });
+                .subscribe(s -> logger.info("success = [{}]", s),
+                        t -> logger.error("error = [{}]", t.getMessage()));
         vertx.setTimer(1000, l -> {
             d.dispose();
             vertx.close();
@@ -42,13 +39,13 @@ public class App1 extends AbstractVerticle {
         var d2 = vertx.rxDeployVerticle("com.stulsoft.pvertx.preactivex3.verticle.V2");
         d1.subscribe(s -> {
             logger.info("d1 success = [{}]", s);
-            vertx.eventBus().rxSend(V1.EB_ADDRESS, "").subscribe(response -> {
+            vertx.eventBus().rxRequest(V1.EB_ADDRESS, "").subscribe(response -> {
                 logger.info("d1.result=[{}]", response.body().toString());
             });
         });
         d2.subscribe(s -> {
             logger.info("d2 success = [{}]", s);
-            vertx.eventBus().rxSend(V2.EB_ADDRESS, "").subscribe(response -> {
+            vertx.eventBus().rxRequest(V2.EB_ADDRESS, "").subscribe(response -> {
                 logger.info("d2.result=[{}]", response.body().toString());
             });
         });

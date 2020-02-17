@@ -1,20 +1,18 @@
 package com.stulsoft.pvertx.httpserver1.verticles;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
-
 import io.vertx.core.AbstractVerticle;
-import io.vertx.core.Future;
+import io.vertx.core.Promise;
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.core.json.Json;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * @author Yuriy Stul
@@ -24,7 +22,7 @@ public class HttpServer extends AbstractVerticle {
     private static Logger logger = LoggerFactory.getLogger(HttpServer.class);
 
     @Override
-    public void start(Future<Void> startFuture) throws Exception {
+    public void start(Promise<Void> startPromise){
         logger.info("Starting HTTP server...");
 
         Config conf = ConfigFactory.load();
@@ -36,21 +34,21 @@ public class HttpServer extends AbstractVerticle {
         Router router = Router.router(vertx);
         router.get("/").handler(this::indexHandler);
 
-        server.requestHandler(router::accept).listen(port, ar -> {
+        server.requestHandler(router).listen(port, ar -> {
             if (ar.succeeded()) {
                 logger.info("HTTP server running on port {}", port);
-                startFuture.complete();
+                startPromise.complete();
             } else {
-                logger.error("Failed start HTTP server. {}", ar.cause());
-                startFuture.fail(ar.cause());
+                logger.error("Failed start HTTP server. " + ar.cause().getMessage(), ar.cause());
+                startPromise.fail(ar.cause());
             }
         });
     }
 
     @Override
-    public void stop(Future<Void> stopFuture) throws Exception {
+    public void stop(Promise<Void> stopPromise){
         logger.info("Stopping HTTP server...");
-        stopFuture.complete();
+        stopPromise.complete();
     }
 
     private void indexHandler(RoutingContext routingContext) {

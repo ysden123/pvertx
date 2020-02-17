@@ -2,6 +2,7 @@ package com.stulsoft.pvertx.pfuture;
 
 import com.stulsoft.pvertx.common.Terminator;
 import io.vertx.core.Future;
+import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,17 +15,17 @@ public class Main {
     private static Logger logger = LoggerFactory.getLogger(Main.class);
 
     private static Future<String> foo() {
-        Future<String> future = Future.future();
+        Promise<String> promise = Promise.promise();
 
         try {
             Thread.sleep(250);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-//        future.tryComplete("Good");
-        future.tryFail("Bad");
+//        promise.tryComplete("Good");
+        promise.tryFail("Bad");
 
-        return future;
+        return promise.future();
 
     }
 

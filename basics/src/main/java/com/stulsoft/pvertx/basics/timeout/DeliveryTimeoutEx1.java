@@ -24,14 +24,12 @@ public class DeliveryTimeoutEx1 {
     private static void test1(Vertx vertx) {
         logger.info("==>test1");
         var eb = vertx.eventBus();
-        eb.consumer(EB_ADDRESS1, msg -> {
-            vertx.setTimer(1000, l -> msg.reply("Done 1"));
-        });
+        eb.consumer(EB_ADDRESS1, msg -> vertx.setTimer(1000, l -> msg.reply("Done 1")));
 
         var deliveryOptions = new DeliveryOptions()
                 .setSendTimeout(500);
 
-        eb.send(EB_ADDRESS1, "Do it", deliveryOptions, result -> {
+        eb.request(EB_ADDRESS1, "Do it", deliveryOptions, result -> {
             if (result.succeeded()) {
                 logger.info("Success {}", result.result().body());
             } else {
@@ -45,14 +43,12 @@ public class DeliveryTimeoutEx1 {
     private static void test2(Vertx vertx) {
         logger.info("==>test2");
         var eb = vertx.eventBus();
-        eb.consumer(EB_ADDRESS2, msg -> {
-            vertx.setTimer(1000, l -> msg.reply("Done 2"));
-        });
+        eb.consumer(EB_ADDRESS2, msg -> vertx.setTimer(1000, l -> msg.reply("Done 2")));
 
         var deliveryOptions = new DeliveryOptions()
                 .setSendTimeout(1500);
 
-        eb.send(EB_ADDRESS2, "Do it", deliveryOptions, result -> {
+        eb.request(EB_ADDRESS2, "Do it", deliveryOptions, result -> {
             if (result.succeeded()) {
                 logger.info("Success {}", result.result().body());
             } else {

@@ -28,7 +28,7 @@ public class AutoCloseMain extends AbstractVerticle {
         logger.info("==>main");
         Vertx vertx = Vertx.vertx();
         vertx.deployVerticle(new AutoCloseMain(), deployRes ->
-                vertx.eventBus().send(ADDRESS_START, COMMAND_START, startResult -> {
+                vertx.eventBus().request(ADDRESS_START, COMMAND_START, startResult -> {
                     logger.info("Start result: {}", startResult.result().body().toString());
                     vertx.eventBus().send(ADDRESS_STOP, COMMAND_STOP);
                 })

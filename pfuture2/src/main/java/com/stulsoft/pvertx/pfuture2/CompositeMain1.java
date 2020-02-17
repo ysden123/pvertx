@@ -5,6 +5,7 @@
 package com.stulsoft.pvertx.pfuture2;
 
 import io.vertx.core.Future;
+import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,29 +28,29 @@ public class CompositeMain1 {
 
     private static Future<Void> f1(final Vertx vertx) {
         logger.info("==>f1");
-        Future<Void> future = Future.future();
+        Promise<Void> promise = Promise.promise();
         vertx.setTimer(100, l -> {
             logger.info("Completed f1");
-            future.complete();
+            promise.complete();
         });
-        return future;
+        return promise.future();
     }
 
     private static Future<Void> f2(final Vertx vertx) {
         logger.info("==>f2");
-        Future<Void> future = Future.future();
+        Promise<Void> promise = Promise.promise();
         vertx.setTimer(100, l -> {
             logger.info("Completed f2");
-            future.complete();
+            promise.complete();
         });
-        return future;
+        return promise.future();
     }
 
     private static Future<Void> end(final Vertx vertx) {
         logger.info("==>end");
-        Future<Void> future = Future.future();
+        Promise<Void> promise = Promise.promise();
         vertx.close();
-        future.complete();
-        return future;
+        promise.complete();
+        return promise.future();
     }
 }

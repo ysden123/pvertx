@@ -1,16 +1,15 @@
 package com.stulsoft.pvertx.unittest1;
 
+import io.vertx.core.Vertx;
+import io.vertx.ext.unit.Async;
+import io.vertx.ext.unit.TestContext;
+import io.vertx.ext.unit.junit.VertxUnitRunner;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import io.vertx.core.Vertx;
-import io.vertx.ext.unit.Async;
-import io.vertx.ext.unit.TestContext;
-import io.vertx.ext.unit.junit.VertxUnitRunner;
 
 /**
  * @author Yuriy Stul
@@ -35,7 +34,7 @@ public class Service1Test {
 	@Test
 	public void messageTest(TestContext context) {
 		final Async async = context.async();
-		vertx.eventBus().send("service1", "test", (ar) -> {
+		vertx.eventBus().request("service1", "test", (ar) -> {
 			if (ar.succeeded()) {
 				logger.debug("ar.result().headers(): {}", ar.result().headers().size());
 

@@ -1,7 +1,7 @@
 package com.stulsoft.pvertx.httpserver2.verticles;
 
 import io.vertx.core.AbstractVerticle;
-import io.vertx.core.Future;
+import io.vertx.core.Promise;
 import io.vertx.core.eventbus.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,17 +17,17 @@ public class Service extends AbstractVerticle {
     private Random random = new Random(1234);
 
     @Override
-    public void start(Future<Void> startFuture) {
+    public void start(Promise<Void> startPromise) {
         logger.info("Starting Service...");
 
         vertx.eventBus().consumer("serviceAddress", this::handleMessage);
-        startFuture.complete();
+        startPromise.complete();
     }
 
     @Override
-    public void stop(Future<Void> stopFuture) {
+    public void stop(Promise<Void> stopPromise) {
         logger.info("Stopping Service...");
-        stopFuture.complete();
+        stopPromise.complete();
     }
 
     private void handleMessage(Message<String> message) {

@@ -28,7 +28,7 @@ public class ChainDeployment2 extends AbstractVerticle {
     }
 
     @Override
-    public void start(Future<Void> startFuture) throws Exception {
+    public void start(Promise<Void> startPromise){
         logger.info("==>start");
 
         var deploys = new ArrayList<Future>();
@@ -38,9 +38,9 @@ public class ChainDeployment2 extends AbstractVerticle {
 
         CompositeFuture.all(deploys).setHandler(deployResult -> {
             if (deployResult.succeeded()) {
-                startFuture.complete();
+                startPromise.complete();
             } else {
-                startFuture.fail(deployResult.cause());
+                startPromise.fail(deployResult.cause());
             }
         });
     }
@@ -51,13 +51,13 @@ public class ChainDeployment2 extends AbstractVerticle {
     }
 
     private Future<AsyncResult> deploy(final String verticleName) {
-        Future<AsyncResult> result = Future.future();
+        Promise promise = Promise.<AsyncResult>promise();
         vertx.deployVerticle(verticleName, deployResult -> {
             if (deployResult.succeeded())
-                result.complete(deployResult);
+                promise.complete(deployResult);
             else
-                result.fail(deployResult.cause().getMessage());
+                promise.fail(deployResult.cause().getMessage());
         });
-        return result;
+        return promise.future();
     }
 }

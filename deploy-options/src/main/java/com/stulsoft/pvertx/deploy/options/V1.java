@@ -5,7 +5,7 @@
 package com.stulsoft.pvertx.deploy.options;
 
 import io.vertx.core.AbstractVerticle;
-import io.vertx.core.Future;
+import io.vertx.core.Promise;
 import io.vertx.core.eventbus.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,10 +19,10 @@ public class V1 extends AbstractVerticle {
     static final String EB_ADDRESS = "v1";
 
     @Override
-    public void start(Future<Void> startFuture) {
+    public void start(Promise<Void> startPromise) {
         logger.info("==>start with conf: {}", config());
         vertx.eventBus().consumer(EB_ADDRESS, this::handler);
-        startFuture.complete();
+        startPromise.complete();
     }
 
     @Override

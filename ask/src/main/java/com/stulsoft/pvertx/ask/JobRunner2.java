@@ -57,7 +57,7 @@ class JobRunner2 {
 
         var deliveryOptions = new DeliveryOptions()
                 .setSendTimeout(5000);
-        vertx.eventBus().send(ServiceVerticle.EB_ADDRESS,
+        vertx.eventBus().request(ServiceVerticle.EB_ADDRESS,
                 new JsonObject().put("data", "Do it"),
                 deliveryOptions,
                 askResult -> {
