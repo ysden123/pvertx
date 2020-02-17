@@ -34,41 +34,50 @@ public class HttpParser2 {
                 .setURI("/stream/100"));    // max - 100
         req.putHeader("Content-type", "application/json");
 
-        req.handler(reqRes -> {
-            if (reqRes.statusCode() == HttpResponseStatus.OK.code()) {
-                var counter = new AtomicInteger();
-                var parser = JsonParser.newParser(reqRes.toFlowable());
-                parser.objectValueMode()
-                        .exceptionHandler(t -> {
-                            logger.error(t.getMessage(), t);
-                            vertx.close();
-                        })
-                        .endHandler(v -> {
-                            logger.info("Processed {} records", counter.get());
-                            vertx.close();
-                        })
-                        .handler(event -> {
-                            if (event.type() == JsonEventType.VALUE) {
-                                if (counter.incrementAndGet() <= 10) {  // output first 10 records
-                                    logger.info("{}->{}", event.fieldName(), event.value().toString());
-                                    var fieldNames = event.objectValue().fieldNames();
-                                    logger.info("\tFields: {}", fieldNames);
-                                }
-                            } else {
-                                logger.info("{}", event.type());
-                            }
-                        });
-            } else {
-                logger.error("Failed {} {}", reqRes.statusCode(), reqRes.statusMessage());
-            }
-            vertx.close();
-            logger.info("<==main");
-        });
+        req.
+                toObservable()
+                .subscribe(reqRes -> {
+                    if (reqRes.statusCode() == HttpResponseStatus.OK.code()) {
+                        var counter = new AtomicInteger();
+                        var parser = JsonParser.newParser(reqRes.toFlowable());
+                        parser.objectValueMode()
+                                .exceptionHandler(t -> {
+                                    logger.error(t.getMessage(), t);
+                                    vertx.close();
+                                    logger.info("<==main");
+                                })
+                                .endHandler(v -> {
+                                    logger.info("Processed {} records", counter.get());
+                                    vertx.close();
+                                    logger.info("<==main");
+                                })
+                                .handler(event -> {
+                                    if (event.type() == JsonEventType.VALUE) {
+                                        if (counter.incrementAndGet() <= 10) {  // output first 10 records
+                                            logger.info("{}->{}", event.fieldName(), event.value().toString());
+                                            var fieldNames = event.objectValue().fieldNames();
+                                            logger.info("\tFields: {}", fieldNames);
+                                        }
+                                    } else {
+                                        logger.info("{}", event.type());
+                                    }
+                                });
+                    } else {
+                        logger.error("Failed {} {}", reqRes.statusCode(), reqRes.statusMessage());
+                        vertx.close();
+                        logger.info("<==main");
+                    }
+                }, error -> {
+                    logger.error("(2) Failed: {}", error.getMessage());
+                    vertx.close();
+                    logger.info("<==main");
+                });
         req.exceptionHandler(t -> {
             logger.error(t.getMessage());
             vertx.close();
             logger.info("<==main");
         });
+
         req.end();
     }
 }

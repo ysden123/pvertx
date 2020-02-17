@@ -12,7 +12,6 @@ import io.vertx.rxjava.core.eventbus.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Optional;
 import java.util.stream.IntStream;
 
 /**
@@ -26,13 +25,11 @@ public class WriteFile3 extends AbstractVerticle {
     private static final String EB_ADDRESS_START = "WriteFile3_start";
     private static final String EB_ADDRESS_STOP = "WriteFile3_stop";
 
-    private int dataCount = 100;
-
     public static void main(String[] args) {
         logger.info("==>main");
         var vertx = Vertx.vertx();
         vertx.deployVerticle("com.stulsoft.pvertx.pasyncfile.WriteFile3", depRes ->
-                vertx.eventBus().send(EB_ADDRESS_START, "start", execResult ->
+                vertx.eventBus().request(EB_ADDRESS_START, "start", execResult ->
                         vertx.eventBus().send(EB_ADDRESS_STOP, "stop")));
     }
 

@@ -23,11 +23,8 @@ public class App1 extends AbstractVerticle {
         var vertx = Vertx.vertx();
         var d = vertx
                 .rxDeployVerticle("com.stulsoft.pvertx.preactivex3.app.App1")
-                .subscribe(s -> {
-                    logger.info("success = [{}]", s);
-                }, t -> {
-                    logger.error("error = [{}]", t.getMessage());
-                });
+                .subscribe(s -> logger.info("success = [{}]", s),
+                        t -> logger.error("error = [{}]", t.getMessage()));
         vertx.setTimer(1000, l -> {
             d.dispose();
             vertx.close();

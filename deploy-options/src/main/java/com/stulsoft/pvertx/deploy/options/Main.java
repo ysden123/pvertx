@@ -6,10 +6,9 @@ package com.stulsoft.pvertx.deploy.options;
 
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.DeploymentOptions;
-import io.vertx.core.Future;
+import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.Message;
-import io.vertx.core.json.JsonObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,15 +43,15 @@ public class Main extends AbstractVerticle {
     }
 
     @Override
-    public void start(Future<Void> startFuture) throws Exception {
+    public void start(Promise<Void> startPromise){
         logger.info("==>start with  config: {}", config());
         vertx.eventBus().consumer(EB_ADDRESS, this::handler);
-        startFuture.complete();
+        startPromise.complete();
     }
 
     private void handler(Message<String> message) {
         logger.info("==>handler with message {}", message.body());
-        vertx.eventBus().send(V1.EB_ADDRESS, "do it V1!", v1Res -> {
+        vertx.eventBus().request(V1.EB_ADDRESS, "do it V1!", v1Res -> {
             if (v1Res.succeeded()) {
                 logger.info("Response from V1: {}", v1Res.result().body().toString());
             } else {

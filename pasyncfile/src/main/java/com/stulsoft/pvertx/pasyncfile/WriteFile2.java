@@ -31,7 +31,7 @@ public class WriteFile2 extends AbstractVerticle {
         logger.info("==>main");
         var vertx = Vertx.vertx();
         vertx.deployVerticle("com.stulsoft.pvertx.pasyncfile.WriteFile2", depRes ->
-                vertx.eventBus().send(EB_ADDRESS_START, "start", execResult ->
+                vertx.eventBus().request(EB_ADDRESS_START, "start", execResult ->
                         vertx.eventBus().send(EB_ADDRESS_STOP, "stop")));
     }
 

@@ -43,10 +43,8 @@ public class ChainTest {
     public void test(TestContext context) {
         logger.info("==>test");
         Async async = context.async();
-
-        Promise<Void> promise = Promise.promise();
-        var startFuture = promise.future();
-        startFuture.setHandler(result -> {
+        Promise<Void> startPromise = Promise.promise();
+        startPromise.future().setHandler(result -> {
             context.assertTrue(result.succeeded());
             async.complete();
         });
@@ -55,8 +53,8 @@ public class ChainTest {
                 .compose(v -> chain2())
                 .compose(v -> pause())
                 .compose(v -> {
-                    promise.complete();
-                    return startFuture;
+                    startPromise.complete();
+                    return startPromise.future();
                 });
     }
 
@@ -95,4 +93,6 @@ public class ChainTest {
 
         return promise.future();
     }
+
+
 }

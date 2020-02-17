@@ -19,7 +19,6 @@ import org.slf4j.LoggerFactory;
  */
 public class App2 extends AbstractVerticle {
     private static final Logger logger = LoggerFactory.getLogger(App2.class);
-    private Single<String> d1;
     private Single<String> d2;
     public final static String EB_ADDRESS = "app2";
 
@@ -51,7 +50,7 @@ public class App2 extends AbstractVerticle {
 
         vertx.eventBus().consumer(EB_ADDRESS, this::handler);
 
-        d1 = vertx.rxDeployVerticle("com.stulsoft.pvertx.preactivex3.verticle.V1");
+        Single<String> d1 = vertx.rxDeployVerticle("com.stulsoft.pvertx.preactivex3.verticle.V1");
         d2 = vertx.rxDeployVerticle("com.stulsoft.pvertx.preactivex3.verticle.V2");
 
         d1.subscribe(s1 -> d2.subscribe(s2 -> super.start()));

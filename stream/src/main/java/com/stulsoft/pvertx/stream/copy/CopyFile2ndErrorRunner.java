@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Chained use the deployVerticle and rxSend.
- *
+ * <p>
  * 2nd request fails.
  *
  * @author Yuriy Stul

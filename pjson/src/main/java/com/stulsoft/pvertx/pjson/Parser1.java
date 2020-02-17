@@ -7,11 +7,11 @@ package com.stulsoft.pvertx.pjson;
 import io.vertx.core.file.OpenOptions;
 import io.vertx.core.parsetools.JsonEventType;
 import io.vertx.reactivex.core.Future;
+import io.vertx.reactivex.core.Promise;
 import io.vertx.reactivex.core.Vertx;
 import io.vertx.reactivex.core.parsetools.JsonParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -30,7 +30,7 @@ public class Parser1 {
     }
 
     private static Future<Void> readFile(final Vertx vertx) {
-        Future<Void> future = Future.future();
+        Promise<Void> promise = Promise.promise();
 
         vertx.fileSystem().open("test-files/data1.json",
                 new OpenOptions()
@@ -42,13 +42,13 @@ public class Parser1 {
                             .exceptionHandler(t -> {
                                 logger.error(t.getMessage(), t);
                                 file.close();
-                                future.fail(t);
+                                promise.fail(t);
                             })
                             .endHandler(v -> {
                                 logger.info("Processed {} records", counter.get());
                                 file.close();
                                 vertx.close();
-                                future.complete();
+                                promise.complete();
                             })
                             .handler(event -> {
                                 if (event.type() == JsonEventType.VALUE) {
@@ -60,6 +60,6 @@ public class Parser1 {
                             });
                 });
 
-        return future;
+        return promise.future();
     }
 }
