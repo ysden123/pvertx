@@ -30,11 +30,11 @@ public class CopyFile1stErrorRunner {
         vertx.rxDeployVerticle(deployName)
                 .flatMap(id -> {
                     logger.info("Copying 'ERROR.txt' to 'text1Copy.txt'");
-                    return vertx.eventBus().<String>rxSend(CopyFileVerticle.EB_ADDRESS, new CopyRequest("ERROR.txt", "text1Copy.txt"));
+                    return vertx.eventBus().<String>rxRequest(CopyFileVerticle.EB_ADDRESS, new CopyRequest("ERROR.txt", "text1Copy.txt"));
                 })
                 .flatMap(id -> {
                     logger.info("Copying 'text1.txt' to 'text2Copy.txt'");
-                    return vertx.eventBus().<String>rxSend(CopyFileVerticle.EB_ADDRESS, new CopyRequest("text1.txt", "text2Copy.txt"));
+                    return vertx.eventBus().<String>rxRequest(CopyFileVerticle.EB_ADDRESS, new CopyRequest("text1.txt", "text2Copy.txt"));
                 })
                 .doFinally(vertx::close)
                 .subscribe(response -> logger.info("Result is {}", response.body()),

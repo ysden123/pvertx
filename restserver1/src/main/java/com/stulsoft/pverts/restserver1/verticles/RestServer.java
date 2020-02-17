@@ -9,7 +9,7 @@ import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 import io.reactivex.Single;
 import io.reactivex.disposables.Disposable;
-import io.vertx.core.Future;
+import io.vertx.core.Promise;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.reactivex.core.AbstractVerticle;
@@ -30,16 +30,8 @@ public class RestServer extends AbstractVerticle {
     private Disposable someDisposable;
     private ExecutorService es = Executors.newFixedThreadPool(3);
 
-    /**
-     * Start the verticle.<p>
-     * This is called by Vert.x when the verticle instance is deployed. Don't call it yourself.<p>
-     * If your verticle does things in its startup which take some time then you can override this method
-     * and call the startFuture some time later when start up is complete.
-     *
-     * @param startFuture a future which should be called when verticle start-up is complete.
-     */
     @Override
-    public void start(Future<Void> startFuture) {
+    public void start(Promise<Void> startPromise) {
         logger.info("Starting RestServer...");
 
         Config conf = ConfigFactory.load();
@@ -47,30 +39,22 @@ public class RestServer extends AbstractVerticle {
         int port = conf.getInt("port");
 
         server = vertx.createHttpServer()
-                .requestHandler(createRouter()::accept)
+                .requestHandler(createRouter())
                 .rxListen(port)
                 .toObservable()
                 .subscribe(httpServer -> {
                     logger.info("Started server on {}", port);
-                    startFuture.complete();
-                }, t -> startFuture.fail(t.getMessage()));
+                    startPromise.complete();
+                }, t -> startPromise.fail(t.getMessage()));
 
     }
 
-    /**
-     * Stop the verticle.<p>
-     * This is called by Vert.x when the verticle instance is un-deployed. Don't call it yourself.<p>
-     * If your verticle does things in its shut-down which take some time then you can override this method
-     * and call the stopFuture some time later when clean-up is complete.
-     *
-     * @param stopFuture a future which should be called when verticle clean-up is complete.
-     */
     @Override
-    public void stop(Future<Void> stopFuture) {
+    public void stop(Promise<Void> stopPromise) {
         logger.info("Stopping RestServer...");
         someDisposable.dispose();
         server.dispose();
-        stopFuture.complete();
+        stopPromise.complete();
     }
 
     private Router createRouter() {

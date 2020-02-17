@@ -5,6 +5,7 @@
 package com.stulsoft.pvertx.unittest1;
 
 import io.vertx.core.Future;
+import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
 import io.vertx.ext.unit.Async;
 import io.vertx.ext.unit.TestContext;
@@ -33,17 +34,17 @@ public class ChainTest {
     }
 
     @After
-    public void tearDown(TestContext context) {
+    public void tearDown() {
         logger.info("==>tearDown");
-        vertx.close(context.asyncAssertSuccess());
+        vertx.close();
     }
 
     @Test
     public void test(TestContext context) {
         logger.info("==>test");
         Async async = context.async();
-        Future<Void> startFuture = Future.future();
-        startFuture.setHandler(result -> {
+        Promise<Void> startPromise = Promise.promise();
+        startPromise.future().setHandler(result -> {
             context.assertTrue(result.succeeded());
             async.complete();
         });
@@ -51,44 +52,46 @@ public class ChainTest {
         chain1()
                 .compose(v -> chain2())
                 .compose(v -> pause())
-                .compose(v -> startFuture.complete(), startFuture);
+                .compose(v -> {
+                    startPromise.complete();
+                    return startPromise.future();
+                });
     }
 
     private Future<Void> chain1() {
         logger.info("==>chain1");
-        Future<Void> future = Future.future();
+        Promise<Void> promise = Promise.promise();
 
         vertx.setTimer(1000, l -> {
             logger.info("Completed chain1");
-            future.complete();
+            promise.complete();
         });
 
-        return future;
+        return promise.future();
     }
 
     private Future<Void> chain2() {
         logger.info("==>chain2");
-        Future<Void> future = Future.future();
+        Promise<Void> promise = Promise.promise();
 
         vertx.setTimer(1000, l -> {
             logger.info("Completed chain2");
-            future.complete();
+            promise.complete();
         });
 
-        return future;
+        return promise.future();
     }
 
     private Future<Void> pause() {
         logger.info("==>pause");
-        Future<Void> future = Future.future();
+        Promise<Void> promise = Promise.promise();
 
         vertx.setTimer(3000, l -> {
             logger.info("Completed pause");
-            future.complete();
+            promise.complete();
         });
 
-        return future;
+        return promise.future();
     }
-
 
 }

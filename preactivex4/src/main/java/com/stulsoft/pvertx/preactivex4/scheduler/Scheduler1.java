@@ -28,7 +28,7 @@ public class Scheduler1 extends AbstractVerticle {
                 depRes -> {
                     logger.info("Deployed {}", depRes.result());
 
-                    vertx.eventBus().send(EB_ADDRESS, "go!", response -> {
+                    vertx.eventBus().request(EB_ADDRESS, "go!", response -> {
                         logger.info("Result is {}", response.result().body().toString());
                         vertx.close();
                     });
