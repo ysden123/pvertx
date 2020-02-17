@@ -28,8 +28,8 @@ public class MainMapWithOtherwise extends AbstractVerticle {
         logger.info("==>main");
         Vertx vertx = Vertx.vertx();
         vertx.deployVerticle(new MainMapWithOtherwise(), deployRes -> {
-            vertx.eventBus().send(ADDRESS, COMMAND_SUCCESS, res -> resultHandler(COMMAND_SUCCESS, res));
-            vertx.eventBus().send(ADDRESS, COMMAND_FAIL, res -> resultHandler(COMMAND_FAIL, res));
+            vertx.eventBus().request(ADDRESS, COMMAND_SUCCESS, res -> resultHandler(COMMAND_SUCCESS, res));
+            vertx.eventBus().request(ADDRESS, COMMAND_FAIL, res -> resultHandler(COMMAND_FAIL, res));
         });
 
         vertx.setTimer(2000, l -> vertx.close());

@@ -1,23 +1,21 @@
 package com.stulsoft.pvertx.httpserver2.verticles;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
-
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.AsyncResult;
-import io.vertx.core.Future;
+import io.vertx.core.Promise;
 import io.vertx.core.eventbus.Message;
 import io.vertx.core.eventbus.ReplyException;
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.core.json.Json;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * @author Yuriy Stul
@@ -27,7 +25,7 @@ public class HttpServer extends AbstractVerticle {
     private static Logger logger = LoggerFactory.getLogger(HttpServer.class);
 
     @Override
-    public void start(Future<Void> startFuture) {
+    public void start(Promise<Void> startPromise) {
         logger.info("Starting HTTP server...");
 
         Config conf = ConfigFactory.load();
@@ -40,34 +38,34 @@ public class HttpServer extends AbstractVerticle {
         router.get("/service").handler(this::serviceHandler);
         router.get("/service2").handler(this::service2Handler);
 
-        server.requestHandler(router::accept).listen(port, ar -> {
+        server.requestHandler(router).listen(port, ar -> {
             if (ar.succeeded()) {
                 logger.info("HTTP server running on port {}", port);
-                startFuture.complete();
+                startPromise.complete();
             } else {
-                logger.error("Failed start HTTP server. {}", ar.cause());
-                startFuture.fail(ar.cause());
+                logger.error("Failed start HTTP server. " + ar.cause().getMessage(), ar.cause());
+                startPromise.fail(ar.cause());
             }
         });
     }
 
     @Override
-    public void stop(Future<Void> stopFuture) {
+    public void stop(Promise<Void> stopPromise) {
         logger.info("Stopping HTTP server...");
-        stopFuture.complete();
+        stopPromise.complete();
     }
 
     private void serviceHandler(RoutingContext routingContext) {
         logger.info("Handling service...");
 
-        vertx.eventBus().send("serviceAddress", "Get page",
+        vertx.eventBus().request("serviceAddress", "Get page",
                 messageAsyncResult -> commonServiceHandler(routingContext, messageAsyncResult));
     }
 
     private void service2Handler(RoutingContext routingContext) {
         logger.info("Handling service2...");
 
-        vertx.eventBus().send("service2Address", "getService2", messageAsyncResult ->
+        vertx.eventBus().request("service2Address", "getService2", messageAsyncResult ->
                 commonServiceHandler(routingContext, messageAsyncResult));
     }
 

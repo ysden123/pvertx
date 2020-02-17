@@ -26,11 +26,9 @@ public class MultipleRunner {
 
                 for (int i = 1; i <= 5; ++i) {
                     var ii = i;
-                    vertx.eventBus().send(Verticle4Multiple.EB_ADDRESS, "msg # " + i, result -> {
-                        logger.info("result[{}]: {}", ii, result.result().body().toString());
-                    });
+                    vertx.eventBus().request(Verticle4Multiple.EB_ADDRESS, "msg # " + i,
+                            result -> logger.info("result[{}]: {}", ii, result.result().body().toString()));
                 }
-
             } else {
                 logger.error("Failed deployment. {}", deployResult.cause().getMessage());
             }

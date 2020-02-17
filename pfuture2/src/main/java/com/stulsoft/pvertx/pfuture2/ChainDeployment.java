@@ -41,8 +41,13 @@ public class ChainDeployment extends AbstractVerticle {
 
         deploy("com.stulsoft.pvertx.pfuture2.V1")
                 .compose(r -> deploy("com.stulsoft.pvertx.pfuture2.V2"))
-                .compose(r -> deployResult.complete(),
-                        e -> deployResult.fail(e));
+                .compose(ar ->{
+                    deployResult.complete();
+                    return deployResult.future();
+                }, err ->{
+                    deployResult.fail(err);
+                    return deployResult.future();
+                });
     }
 
     @Override

@@ -4,7 +4,7 @@
 
 package com.stulsoft.pvertx.basics.header;
 
-import io.vertx.core.Future;
+import io.vertx.core.Promise;
 import io.vertx.core.eventbus.DeliveryOptions;
 import io.vertx.core.json.JsonObject;
 import io.vertx.reactivex.core.AbstractVerticle;
@@ -27,16 +27,16 @@ public class VerticleUseHeader extends AbstractVerticle {
     private static final String ACTION_TEST2 = "test2";
 
     @Override
-    public void start(Future<Void> startFuture) throws Exception {
+    public void start(Promise<Void> startPromise) {
         logger.info("==>start");
         vertx.eventBus().consumer(EB_ADDRESS, this::handler);
-        startFuture.complete();
+        startPromise.complete();
     }
 
     @Override
-    public void stop(Future<Void> stopFuture) throws Exception {
+    public void stop(Promise<Void> stopPromise) {
         logger.info("==>stop");
-        stopFuture.complete();
+        stopPromise.complete();
     }
 
     private void handler(Message<JsonObject> message) {
@@ -72,7 +72,7 @@ public class VerticleUseHeader extends AbstractVerticle {
         vertx.rxDeployVerticle(VerticleUseHeader.class.getName())
                 .doOnSuccess(s -> {
                     var message = new JsonObject();
-                    vertx.eventBus().rxSend(EB_ADDRESS, message, new DeliveryOptions()
+                    vertx.eventBus().rxRequest(EB_ADDRESS, message, new DeliveryOptions()
                             .addHeader(HEADER_ACTION, ACTION_TEST1))
                             .subscribe(
                                     result -> logger.info(result.body().toString()),
@@ -80,7 +80,7 @@ public class VerticleUseHeader extends AbstractVerticle {
                 })
                 .doOnSuccess(s -> {
                     var message = new JsonObject();
-                    vertx.eventBus().rxSend(EB_ADDRESS, message, new DeliveryOptions()
+                    vertx.eventBus().rxRequest(EB_ADDRESS, message, new DeliveryOptions()
                             .addHeader(HEADER_ACTION, ACTION_TEST2))
                             .subscribe(
                                     result -> logger.info(result.body().toString()),

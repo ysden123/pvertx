@@ -42,7 +42,7 @@ class JobRunner {
                     .setSendTimeout(5000);
 
             try {
-                return (JsonObject) vertx.eventBus().rxSend(ServiceVerticle.EB_ADDRESS,
+                return (JsonObject) vertx.eventBus().rxRequest(ServiceVerticle.EB_ADDRESS,
                         new JsonObject().put("data", "Do it"),
                         deliveryOptions)
                         .blockingGet()  // BLOCKS Vertx thread!!!

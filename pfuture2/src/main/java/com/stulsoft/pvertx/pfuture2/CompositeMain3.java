@@ -5,6 +5,7 @@
 package com.stulsoft.pvertx.pfuture2;
 
 import io.vertx.core.Future;
+import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,34 +21,40 @@ public class CompositeMain3 {
     public static void main(String[] args) {
         logger.info("==>main");
         Vertx vertx = Vertx.vertx();
-        Future<Void> startFuture = Future.future();
-        startFuture.setHandler(rs -> {
+        Promise<Void> startPromise = Promise.promise();
+        startPromise.future().setHandler(rs -> {
             logger.info("Close vertx");
             vertx.close();
         });
         f1(vertx)
                 .compose(v -> f2(vertx))
-                .compose(v -> startFuture.complete(), startFuture);
+                .compose(v -> {
+                    startPromise.complete();
+                    return startPromise.future();
+                }, err -> {
+                    startPromise.fail(err);
+                    return startPromise.future();
+                });
     }
 
     private static Future<Void> f1(final Vertx vertx) {
         logger.info("==>f1");
-        Future<Void> future = Future.future();
+        Promise<Void> promise = Promise.promise();
         vertx.setTimer(100, l -> {
             logger.info("Completed f1");
-            future.complete();
+            promise.complete();
         });
-        return future;
+        return promise.future();
     }
 
     private static Future<Void> f2(final Vertx vertx) {
         logger.info("==>f2");
-        Future<Void> future = Future.future();
+        Promise<Void> promise = Promise.promise();
         vertx.setTimer(100, l -> {
             logger.info("Completed f2");
-            future.complete();
+            promise.complete();
         });
-        return future;
+        return promise.future();
     }
 
 }

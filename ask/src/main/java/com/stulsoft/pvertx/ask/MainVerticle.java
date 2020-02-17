@@ -5,7 +5,7 @@
 package com.stulsoft.pvertx.ask;
 
 import io.vertx.core.DeploymentOptions;
-import io.vertx.core.Future;
+import io.vertx.core.Promise;
 import io.vertx.reactivex.core.AbstractVerticle;
 import io.vertx.reactivex.core.Vertx;
 import org.slf4j.Logger;
@@ -48,7 +48,7 @@ public class MainVerticle extends AbstractVerticle {
     }
 
     @Override
-    public void start(Future<Void> startFuture) {
+    public void start(Promise<Void> startPromise) {
         logger.info("Starting MainVerticle ...");
         logger.info("Deploying ServiceVerticle ...");
         vertx.deployVerticle(ServiceVerticle.class.getName(),
@@ -57,9 +57,9 @@ public class MainVerticle extends AbstractVerticle {
                         .setInstances(5),
                 deployResult -> {
                     if (deployResult.succeeded())
-                        startFuture.complete();
+                        startPromise.complete();
                     else
-                        startFuture.fail(deployResult.cause());
+                        startPromise.fail(deployResult.cause());
                 });
     }
 }
