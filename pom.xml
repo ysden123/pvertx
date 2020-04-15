@@ -16,6 +16,7 @@
         <module>asyncresult</module>
         <module>autoclose</module>
         <module>basics</module>
+        <module>benchmark</module>
         <module>bus-object</module>
         <module>common</module>
         <module>clustered2</module>
