@@ -1,0 +1,5 @@
+= Playing with Vert.x
+
+Test projects with Vert.x platform.
+
+Usage of JUnit5 with Kafka client
