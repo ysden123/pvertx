@@ -21,10 +21,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class AsyncTestEx01 extends AbstractVerticle {
     private static final Logger logger = LoggerFactory.getLogger(AsyncTestEx01.class);
     private final Vertx vertx;
-    public static String EB_ADDRESS = "AsyncTestEx01";
+    public static String EB_ADDRESS = AsyncTestEx01.class.getName();
     private final Random random = new Random();
     private static final String ATTR_NUMBER = "number";
-    private static final String ATTR_REPLY = "number";
+    private static final String ATTR_REPLY = "reply";
 
     public AsyncTestEx01(Vertx vertx) {
         this.vertx = vertx;
