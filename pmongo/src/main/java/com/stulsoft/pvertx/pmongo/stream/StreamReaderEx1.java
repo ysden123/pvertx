@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
-import static com.stulsoft.pvertx.pmongo.util.Utils.createVertrx;
+import static com.stulsoft.pvertx.pmongo.util.Utils.createVertx;
 import static com.stulsoft.pvertx.pmongo.util.Utils.mongoConfig;
 
 /**
@@ -72,7 +72,7 @@ public class StreamReaderEx1 {
 
     public static void main(String[] args) {
         logger.info("==>main");
-        var vertx = Vertx.newInstance(createVertrx());
+        var vertx = Vertx.newInstance(createVertx());
         var mongoClient = MongoClient.createShared(vertx, mongoConfig());
 
         var inst = new StreamReaderEx1();
