@@ -26,12 +26,14 @@
         <module>httpserver-cluster</module>
         <module>kafka-unit-test</module>
         <module>pasyncfile</module>
+        <module>pchain</module>
         <module>pconfig</module>
         <module>pconfig2</module>
         <module>pconfig3</module>
         <module>pfuture</module>
         <module>pfuture2</module>
         <module>pjson</module>
+        <module>pmongo</module>
         <module>preactivex1</module>
         <module>preactivex2</module>
         <module>preactivex3</module>
@@ -44,7 +46,7 @@
         <module>unittest2</module>
         <module>upload-server</module>
         <module>worker1</module>
-        <module>pmongo</module>
+        <module>pchain</module>
     </modules>
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
