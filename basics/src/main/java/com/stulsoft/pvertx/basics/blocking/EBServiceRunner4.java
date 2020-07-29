@@ -17,8 +17,8 @@ import java.util.concurrent.atomic.AtomicInteger;
  *
  * @author Yuriy Stul
  */
-public class EBServiceRunner {
-    private static final Logger logger = LoggerFactory.getLogger(EBServiceRunner.class);
+public class EBServiceRunner4 {
+    private static final Logger logger = LoggerFactory.getLogger(EBServiceRunner4.class);
 
     public static void main(String[] args) {
         logger.info("==>main");
@@ -51,12 +51,12 @@ public class EBServiceRunner {
     }
 
     private static void test1(final Vertx vertx) {
-        vertx.deployVerticle(EBServiceVerticle1.class.getName(), dr -> {
+        vertx.deployVerticle(EBServiceVerticle2.class.getName(), dr -> {
             var count = new AtomicInteger(0);
             for (int i = 1; i <= 10; ++i) {
                 vertx.eventBus()
                         .request(
-                                EBServiceVerticle1.EB_ADDRESS_1, "test " + i,
+                                EBServiceVerticle2.EB_ADDRESS_1, "test " + i,
                                 result -> {
 //                                    logger.info("Result {}", result.result().body());
                                     if (count.incrementAndGet() >= 10) {
@@ -68,12 +68,12 @@ public class EBServiceRunner {
     }
 
     private static void test2(final Vertx vertx) {
-        vertx.deployVerticle(EBServiceVerticle1.class.getName(), dr -> {
+        vertx.deployVerticle(EBServiceVerticle2.class.getName(), dr -> {
             var count = new AtomicInteger(0);
             for (int i = 1; i <= 10; ++i) {
                 vertx.eventBus()
                         .request(
-                                EBServiceVerticle1.EB_ADDRESS_2, "test " + i,
+                                EBServiceVerticle2.EB_ADDRESS_2, "test " + i,
                                 result -> {
 //                                    logger.info("Result {}", result.result().body());
                                     if (count.incrementAndGet() >= 10) {
@@ -85,12 +85,12 @@ public class EBServiceRunner {
     }
 
     private static void test3(final Vertx vertx) {
-        vertx.deployVerticle(EBServiceVerticle1.class.getName(), dr -> {
+        vertx.deployVerticle(EBServiceVerticle2.class.getName(), dr -> {
             var count = new AtomicInteger(0);
             for (int i = 1; i <= 10; ++i) {
                 vertx.eventBus()
                         .request(
-                                EBServiceVerticle1.EB_ADDRESS_3, "test " + i,
+                                EBServiceVerticle2.EB_ADDRESS_3, "test " + i,
                                 result -> {
 //                                    logger.info("Result {}", result.result().body());
                                     if (count.incrementAndGet() >= 10) {
@@ -102,12 +102,12 @@ public class EBServiceRunner {
     }
 
     private static void test4(final Vertx vertx) {
-        vertx.deployVerticle(EBServiceVerticle1.class.getName(), dr -> {
+        vertx.deployVerticle(EBServiceVerticle2.class.getName(), dr -> {
             var count = new AtomicInteger(0);
             for (int i = 1; i <= 10; ++i) {
                 vertx.eventBus()
                         .request(
-                                EBServiceVerticle1.EB_ADDRESS_4, "test " + i,
+                                EBServiceVerticle2.EB_ADDRESS_4, "test " + i,
                                 result -> {
 //                                    logger.info("Result {}", result.result().body());
                                     if (count.incrementAndGet() >= 10) {

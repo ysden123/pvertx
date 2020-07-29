@@ -5,6 +5,7 @@
 package com.stulsoft.pvertx.basics.blocking;
 
 import com.stulsoft.pvertx.basics.Utils;
+import io.vertx.core.DeploymentOptions;
 import io.vertx.core.Vertx;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,12 +14,12 @@ import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * No DeploymentOptions
+ * DeploymentOptions - setInstances(2)
  *
  * @author Yuriy Stul
  */
-public class EBServiceRunner {
-    private static final Logger logger = LoggerFactory.getLogger(EBServiceRunner.class);
+public class EBServiceRunner2 {
+    private static final Logger logger = LoggerFactory.getLogger(EBServiceRunner2.class);
 
     public static void main(String[] args) {
         logger.info("==>main");
@@ -51,7 +52,7 @@ public class EBServiceRunner {
     }
 
     private static void test1(final Vertx vertx) {
-        vertx.deployVerticle(EBServiceVerticle1.class.getName(), dr -> {
+        vertx.deployVerticle(EBServiceVerticle1.class.getName(), deploymentOptions(), dr -> {
             var count = new AtomicInteger(0);
             for (int i = 1; i <= 10; ++i) {
                 vertx.eventBus()
@@ -68,7 +69,7 @@ public class EBServiceRunner {
     }
 
     private static void test2(final Vertx vertx) {
-        vertx.deployVerticle(EBServiceVerticle1.class.getName(), dr -> {
+        vertx.deployVerticle(EBServiceVerticle1.class.getName(), deploymentOptions(), dr -> {
             var count = new AtomicInteger(0);
             for (int i = 1; i <= 10; ++i) {
                 vertx.eventBus()
@@ -85,7 +86,7 @@ public class EBServiceRunner {
     }
 
     private static void test3(final Vertx vertx) {
-        vertx.deployVerticle(EBServiceVerticle1.class.getName(), dr -> {
+        vertx.deployVerticle(EBServiceVerticle1.class.getName(), deploymentOptions(), dr -> {
             var count = new AtomicInteger(0);
             for (int i = 1; i <= 10; ++i) {
                 vertx.eventBus()
@@ -102,7 +103,7 @@ public class EBServiceRunner {
     }
 
     private static void test4(final Vertx vertx) {
-        vertx.deployVerticle(EBServiceVerticle1.class.getName(), dr -> {
+        vertx.deployVerticle(EBServiceVerticle1.class.getName(), deploymentOptions(), dr -> {
             var count = new AtomicInteger(0);
             for (int i = 1; i <= 10; ++i) {
                 vertx.eventBus()
@@ -116,5 +117,10 @@ public class EBServiceRunner {
                                 });
             }
         });
+    }
+
+    private static DeploymentOptions deploymentOptions() {
+        return new DeploymentOptions()
+                .setInstances(2);
     }
 }
