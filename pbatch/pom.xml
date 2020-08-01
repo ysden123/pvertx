@@ -13,16 +13,28 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>pchain</artifactId>
+    <artifactId>pbatch</artifactId>
     <version>1.0-SNAPSHOT</version>
     <name>pchain</name>
-    <description>Playing with Vertx - chain</description>
+    <description>Playing with Vertx - pchain</description>
 
     <dependencies>
         <dependency>
             <groupId>io.reactivex.rxjava2</groupId>
             <artifactId>rxjava</artifactId>
             <version>${reactivex.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>RELEASE</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>RELEASE</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>
