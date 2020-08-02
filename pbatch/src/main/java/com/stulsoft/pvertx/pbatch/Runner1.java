@@ -5,7 +5,6 @@
 package com.stulsoft.pvertx.pbatch;
 
 import io.vertx.core.DeploymentOptions;
-import io.vertx.core.eventbus.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,6 +18,7 @@ public class Runner1 {
         logger.info("==>main");
 
         var vertx = Utils.createVertx();
+        var executor = new SyncExecutor(vertx);
 
         var deploymentOptions = new DeploymentOptions()
                 .setWorker(true);
@@ -28,15 +28,16 @@ public class Runner1 {
                 deploymentOptions,
                 dr -> {
                     var generator = new MessageGenerator(1000);
-                    generator.generate().subscribe(s -> vertx
-                            .eventBus()
-                            .<Message<String>>request(
-                                    MessageProcessorVerticle.EB_ADDRESS,
-                                    s,
-                                    ar ->{
-//                                        logger.info("Result: {}", ar.result().body());
-                                        logger.info("Result: {}", ar.result());
-                                    }));
+                    generator.generate().subscribe(
+                            s -> {
+                                executor.execute(s).subscribe(
+                                        r -> logger.info("Result = {}", r)
+                                );
+                            },
+                            err -> {
+                                logger.error(err.getMessage());
+                            }
+                    );
                 });
     }
 }

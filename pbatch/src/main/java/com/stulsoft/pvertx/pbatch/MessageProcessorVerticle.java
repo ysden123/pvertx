@@ -6,6 +6,8 @@ package com.stulsoft.pvertx.pbatch;
 
 import io.reactivex.Completable;
 import io.vertx.core.AbstractVerticle;
+import io.vertx.core.Future;
+import io.vertx.core.Promise;
 import io.vertx.core.eventbus.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,7 +31,8 @@ public class MessageProcessorVerticle extends AbstractVerticle {
     public void start() throws Exception {
         logger.info("Starting...");
         super.start();
-        vertx.eventBus().consumer(EB_ADDRESS, this::handler);
+//        vertx.eventBus().consumer(EB_ADDRESS, this::handler);
+        vertx.eventBus().consumer(EB_ADDRESS, this::handlerSync);
     }
 
     @Override
@@ -38,22 +41,11 @@ public class MessageProcessorVerticle extends AbstractVerticle {
         super.stop();
     }
 
-    private void handler(final Message<String> msg) {
-        queue.add(msg);
-        if (queue.size() >= maxQueueSize) {
-            var works = new Completable[queue.size()];
-            for (int i = 0; i < queue.size(); ++i) {
-                works[i] = makeWorkAsync(queue.get(i));
-            }
-            queue.clear();
-//            Completable.concatArray(works).subscribe(() -> logger.info("Handled {} messages", works.length));
-            Completable.concatArray(works)
-                    .doOnComplete(() -> logger.info("Handled {} messages", works.length))
-                    .blockingGet();
-        }
+    private void handlerSync(final Message<String> msg) {
+        makeWork(msg).subscribe(()-> msg.reply("Handled " + msg.body()));
     }
 
-    private Completable makeWorkAsync(Message<String> msg) {
+    private Completable makeWork(final Message<String> msg) {
         return Completable.create(
                 source -> vertx.setTimer(
                         123 + random.nextInt(1000),
@@ -62,19 +54,5 @@ public class MessageProcessorVerticle extends AbstractVerticle {
                             msg.reply("Done for " + msg.body());
                             source.onComplete();
                         }));
-    }
-
-    private Completable makeWorkSync(Message<String> msg) {
-        return Completable.create(
-                source -> {
-                    try {
-                        Thread.sleep(123 + random.nextInt(1000));
-                        logger.info("Processing {}", msg.body());
-                        msg.reply("Done for " + msg.body());
-                        source.onComplete();
-                    } catch (Exception ignore) {
-
-                    }
-                });
     }
 }
