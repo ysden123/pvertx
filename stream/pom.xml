@@ -15,7 +15,6 @@
         <artifactId>pvertx</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
-    <version>1.0-SNAPSHOT</version>
     <name>stream</name>
     <description>Playing with ReactiveX and Vertx</description>
 

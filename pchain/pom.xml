@@ -14,7 +14,6 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>pchain</artifactId>
-    <version>1.0-SNAPSHOT</version>
     <name>pchain</name>
     <description>Playing with Vertx - chain</description>
 
@@ -23,6 +22,11 @@
             <groupId>io.reactivex.rxjava2</groupId>
             <artifactId>rxjava</artifactId>
             <version>${reactivex.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.stulsoft</groupId>
+            <artifactId>common</artifactId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
 </project>
