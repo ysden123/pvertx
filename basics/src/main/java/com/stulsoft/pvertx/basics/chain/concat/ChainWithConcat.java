@@ -4,7 +4,7 @@
 
 package com.stulsoft.pvertx.basics.chain.concat;
 
-import com.stulsoft.pvertx.basics.Utils;
+import com.stulsoft.pvertx.common.Utils;
 import com.stulsoft.pvertx.basics.chain.VerticleForChain;
 import io.reactivex.Completable;
 import io.vertx.core.Vertx;

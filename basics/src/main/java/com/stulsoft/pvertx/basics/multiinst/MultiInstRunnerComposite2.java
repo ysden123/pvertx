@@ -4,7 +4,7 @@
 
 package com.stulsoft.pvertx.basics.multiinst;
 
-import com.stulsoft.pvertx.basics.Utils;
+import com.stulsoft.pvertx.common.Utils;
 import io.reactivex.Completable;
 import io.vertx.core.DeploymentOptions;
 import io.vertx.core.Vertx;
