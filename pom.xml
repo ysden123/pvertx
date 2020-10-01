@@ -24,6 +24,7 @@
         <module>httpserver1</module>
         <module>httpserver2</module>
         <module>httpserver-cluster</module>
+        <module>kafka</module>
         <module>kafka-unit-test</module>
         <module>pasyncfile</module>
         <module>pbatch</module>
