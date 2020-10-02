@@ -2,7 +2,7 @@
  * Copyright (c) 2020. Yuriy Stul
  */
 
-package com.stulsoft.pvertx.kafka;
+package com.stulsoft.pvertx.kafka.stream;
 
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.eventbus.Message;
@@ -11,19 +11,22 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Random;
 
+import static com.stulsoft.pvertx.kafka.Constants.EB_SERVICE_ADDRESS;
+
 /**
+ * Usual service
+ *
  * @author Yuriy Stul
  */
 public class ServiceVerticle extends AbstractVerticle {
     private static final Logger logger = LoggerFactory.getLogger(ServiceVerticle.class);
 
     private final Random random = new Random();
-    public static final String EB_ADDRESS = ServiceVerticle.class.getName();
 
     @Override
     public void start() throws Exception {
         super.start();
-        vertx.eventBus().consumer(EB_ADDRESS, this::handler);
+        vertx.eventBus().consumer(EB_SERVICE_ADDRESS, this::handler);
         logger.info("Started");
     }
 

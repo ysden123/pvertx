@@ -2,8 +2,10 @@
  * Copyright (c) 2020. Yuriy Stul
  */
 
-package com.stulsoft.pvertx.kafka;
+package com.stulsoft.pvertx.kafka.stream;
 
+import com.stulsoft.pvertx.kafka.Config;
+import com.stulsoft.pvertx.kafka.Constants;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.kafka.client.consumer.KafkaConsumer;
 import io.vertx.kafka.client.consumer.KafkaConsumerRecord;
@@ -12,9 +14,9 @@ import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 
-import static com.stulsoft.pvertx.kafka.Constants.BROCKER_URL;
+import static com.stulsoft.pvertx.kafka.Constants.EB_SERVICE_ADDRESS;
 
-/**g
+/**
  * Usual Vertx Kafka consumer. Does not guarantee sequential processing.
  *
  * @author Yuriy Stul
@@ -29,7 +31,7 @@ public class ConsumerVerticle extends AbstractVerticle {
         super.start();
 
         var config = new HashMap<String, String>();
-        config.put("bootstrap.servers", BROCKER_URL);
+        config.put("bootstrap.servers", Config.kafkaUrl());
         config.put("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
         config.put("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
         config.put("group.id", "stream_test_group");
@@ -46,7 +48,7 @@ public class ConsumerVerticle extends AbstractVerticle {
     private void handler(KafkaConsumerRecord<String, String> record) {
         logger.info("Received {}", record.value());
 
-        vertx.eventBus().<String>request(ServiceVerticle.EB_ADDRESS,
+        vertx.eventBus().<String>request(EB_SERVICE_ADDRESS,
                 record.value(),
                 result -> {
                     logger.info("Response for {} is {}", record.value(), result.result().body());

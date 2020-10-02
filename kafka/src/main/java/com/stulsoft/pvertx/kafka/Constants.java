@@ -8,6 +8,6 @@ package com.stulsoft.pvertx.kafka;
  * @author Yuriy Stul
  */
 public interface Constants {
-    static final String TOPIC_NAME = "stream_test";
-    static final String BROCKER_URL = "localhost:9094";
+    String TOPIC_NAME = "stream_test";
+    String EB_SERVICE_ADDRESS = "eb.service";
 }

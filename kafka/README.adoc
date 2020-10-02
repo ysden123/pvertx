@@ -1,0 +1,9 @@
+= kafka
+
+Playing with Vertx Kafka API.
+
+== _stream_ package
+_stream_ package demonstrates difference between usage of non-blocking consumer
+and stream consumer with the pause.
+
+See comments in code.
