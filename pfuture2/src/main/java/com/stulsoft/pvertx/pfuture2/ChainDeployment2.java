@@ -36,7 +36,7 @@ public class ChainDeployment2 extends AbstractVerticle {
         deploys.add(deploy("com.stulsoft.pvertx.pfuture2.V1"));
         deploys.add(deploy("com.stulsoft.pvertx.pfuture2.V2"));
 
-        CompositeFuture.all(deploys).setHandler(deployResult -> {
+        CompositeFuture.all(deploys).onComplete(deployResult -> {
             if (deployResult.succeeded()) {
                 startPromise.complete();
             } else {
@@ -50,8 +50,8 @@ public class ChainDeployment2 extends AbstractVerticle {
         super.stop();
     }
 
-    private Future<AsyncResult> deploy(final String verticleName) {
-        Promise promise = Promise.<AsyncResult>promise();
+    private Future<AsyncResult<String>> deploy(final String verticleName) {
+        Promise<AsyncResult<String>> promise = Promise.promise();
         vertx.deployVerticle(verticleName, deployResult -> {
             if (deployResult.succeeded())
                 promise.complete(deployResult);

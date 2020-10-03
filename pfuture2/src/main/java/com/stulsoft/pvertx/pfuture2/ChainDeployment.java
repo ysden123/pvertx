@@ -30,7 +30,7 @@ public class ChainDeployment extends AbstractVerticle {
         logger.info("==>start");
         var deployResult = Promise.<AsyncResult>promise();
 
-        deployResult.future().setHandler(r -> {
+        deployResult.future().onComplete(r -> {
             if (r.succeeded()) {
                 startPromise.complete();
             } else {

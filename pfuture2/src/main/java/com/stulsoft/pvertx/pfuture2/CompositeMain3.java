@@ -22,7 +22,7 @@ public class CompositeMain3 {
         logger.info("==>main");
         Vertx vertx = Vertx.vertx();
         Promise<Void> startPromise = Promise.promise();
-        startPromise.future().setHandler(rs -> {
+        startPromise.future().onComplete(rs -> {
             logger.info("Close vertx");
             vertx.close();
         });

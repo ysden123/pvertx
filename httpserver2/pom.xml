@@ -12,10 +12,6 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <properties>
-        <typesafe.version>1.3.3</typesafe.version>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>io.vertx</groupId>

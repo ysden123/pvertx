@@ -22,17 +22,15 @@ public class VerticleWithExceptionRunner {
         var vertx = Utils.createVertx();
 
         vertx.deployVerticle(VerticleWithException.class.getName(),
-                dr -> {
-                    callService(vertx, "test1")
-                            .compose(v -> callService(vertx, "test2"))
-                            .setHandler(ar -> {
-                                if (ar.failed()) {
-                                    logger.error("Total failure: {}", ar.cause().getMessage());
-                                }
-                                vertx.close();
-                                logger.info("<==main");
-                            });
-                }
+                dr -> callService(vertx, "test1")
+                        .compose(v -> callService(vertx, "test2"))
+                        .onComplete(ar -> {
+                            if (ar.failed()) {
+                                logger.error("Total failure: {}", ar.cause().getMessage());
+                            }
+                            vertx.close();
+                            logger.info("<==main");
+                        })
         );
     }
 

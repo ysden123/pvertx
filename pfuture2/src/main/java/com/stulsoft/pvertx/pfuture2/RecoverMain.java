@@ -21,10 +21,10 @@ public class RecoverMain {
 
         succeededFuture()
                 .recover(RecoverMain::recoverFuture)
-                .setHandler(r -> logger.info("Result without recover {}", r.result()));
+                .onComplete(r -> logger.info("Result without recover {}", r.result()));
         failedFuture()
                 .recover(RecoverMain::recoverFuture)
-                .setHandler(r -> logger.info("Result with recover {}", r.result()));
+                .onComplete(r -> logger.info("Result with recover {}", r.result()));
         logger.info("<==main");
     }
 

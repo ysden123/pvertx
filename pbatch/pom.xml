@@ -15,19 +15,13 @@
 
     <artifactId>pbatch</artifactId>
     <name>pchain</name>
-    <description>Playing with Vertx - pchain</description>
+    <description>Playing with Vertx - pbatch</description>
 
     <dependencies>
         <dependency>
             <groupId>io.reactivex.rxjava2</groupId>
             <artifactId>rxjava</artifactId>
             <version>${reactivex.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter</artifactId>
-            <version>RELEASE</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>

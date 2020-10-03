@@ -24,7 +24,7 @@ public class VerticleWithException2Runner {
         vertx.deployVerticle(VerticleWithException2.class.getName(),
                 dr -> callService(vertx, "test1")
                         .compose(v -> callService(vertx, "test2"))
-                        .setHandler(ar -> {
+                        .onComplete(ar -> {
                             if (ar.failed()) {
                                 logger.error("Total failure: {}", ar.cause().getMessage());
                             }

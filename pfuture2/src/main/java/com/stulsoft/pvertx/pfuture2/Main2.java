@@ -19,7 +19,7 @@ public class Main2 {
     public static void main(String[] args) {
         logger.info("Started Main1");
         Future<String> result1 = f1();
-        result1.setHandler(ar -> logger.info("Result: {}", ar.result()));
+        result1.onComplete(ar -> logger.info("Result: {}", ar.result()));
 
         System.out.println("For end enter some line");
         Scanner sc1 = new Scanner(System.in);

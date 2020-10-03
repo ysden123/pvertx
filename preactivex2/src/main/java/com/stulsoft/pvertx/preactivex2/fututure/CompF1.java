@@ -50,7 +50,7 @@ public class CompF1 {
         fList.add(f1());
         fList.add(f2());
         var result = CompositeFuture.all(fList);
-        result.setHandler(r -> {
+        result.onComplete(r -> {
             logger.info("r.succeeded(): {}", r.succeeded());
             vertx.close();
         });

@@ -44,7 +44,7 @@ public class ChainTest {
         logger.info("==>test");
         Async async = context.async();
         Promise<Void> startPromise = Promise.promise();
-        startPromise.future().setHandler(result -> {
+        startPromise.future().onComplete(result -> {
             context.assertTrue(result.succeeded());
             async.complete();
         });

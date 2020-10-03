@@ -42,7 +42,7 @@ public class ConsumerStreamVerticle extends AbstractVerticle {
         KafkaConsumer<String, String> consumer = KafkaConsumer.create(vertx, config);
 
         streamReader = consumer.asStream();
-        consumer.asStream().handler(this::handler);
+        streamReader.handler(this::handler);
 
         consumer.subscribe(Constants.TOPIC_NAME);
         logger.info("Started");

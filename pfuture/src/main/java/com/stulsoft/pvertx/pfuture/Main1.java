@@ -34,7 +34,7 @@ public class Main1 {
         logger.info("Call foo");
         Future<String> result = foo();
 
-        result.setHandler(ar -> {
+        result.onComplete(ar -> {
             if (ar.succeeded()) {
                 logger.info("Result: {}", ar.result());
             } else {

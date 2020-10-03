@@ -69,7 +69,7 @@ public class CompF2 {
         fList.add(f3());
         fList.add(f4());
         var result = CompositeFuture.all(fList);
-        result.setHandler(r -> {
+        result.onComplete(r -> {
             logger.info("r.succeeded(): {}", r.succeeded());
             if (r.failed()) {
                 var joinedError = String.join("; ",

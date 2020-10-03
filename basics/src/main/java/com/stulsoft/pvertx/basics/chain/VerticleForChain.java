@@ -19,16 +19,15 @@ public class VerticleForChain extends AbstractVerticle {
     public static final String EB_ADDRESS = VerticleForChain.class.getName();
 
     @Override
-    public void start(Future<Void> startFuture) throws Exception {
+    public void start() throws Exception {
+        super.start();
         logger.info("Starting");
-        vertx.eventBus().consumer(EB_ADDRESS, this::handler);
-        super.start(startFuture);
-    }
+        vertx.eventBus().consumer(EB_ADDRESS, this::handler);    }
 
     @Override
-    public void stop(Future<Void> stopFuture) throws Exception {
+    public void stop() throws Exception {
+        super.stop();
         logger.info("Stopping");
-        super.stop(stopFuture);
     }
 
     private void handler(Message<String> msg) {

@@ -16,11 +16,6 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <properties>
-        <junit.jupiter.version>5.4.0</junit.jupiter.version>
-        <mockito.version>2.25.0</mockito.version>
-    </properties>
-
     <dependencies>
         <!--Unit testing-->
         <dependency>

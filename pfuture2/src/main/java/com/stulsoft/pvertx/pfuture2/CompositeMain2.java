@@ -33,7 +33,7 @@ public class CompositeMain2 {
     private static void execAll(final Vertx vertx, final Handler<AsyncResult<Void>> handler) {
         logger.info("==>execAll");
         Promise<Void> promise = Promise.promise();
-        promise.future().setHandler(handler);
+        promise.future().onComplete(handler);
         f1(vertx)
                 .compose(v -> f2(vertx))
                 .compose(v -> {

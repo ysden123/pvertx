@@ -15,7 +15,7 @@
 
     <artifactId>pchain</artifactId>
     <name>pchain</name>
-    <description>Playing with Vertx - chain</description>
+    <description>Playing with Vertx - pchain</description>
 
     <dependencies>
         <dependency>

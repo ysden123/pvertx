@@ -1,6 +1,6 @@
 = clustered1
 
-Playing with clustered Pvertx
+Playing with clustered Vertx
 
 See original code here https://github.com/hakdogan/IntroduceToEclicpseVert.x
 
