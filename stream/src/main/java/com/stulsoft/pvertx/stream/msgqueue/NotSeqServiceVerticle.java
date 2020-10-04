@@ -21,12 +21,11 @@ public class NotSeqServiceVerticle extends AbstractVerticle {
     private static final Logger logger = LoggerFactory.getLogger(NotSeqServiceVerticle.class);
     public static final String EB_ADDRESS = NotSeqServiceVerticle.class.getName();
     private final Random random = new Random();
-    private MessageConsumer<String> messageConsumer;
 
     @Override
     public void start() throws Exception {
         super.start();
-        messageConsumer = vertx.eventBus().<String>consumer(EB_ADDRESS);
+        MessageConsumer<String> messageConsumer = vertx.eventBus().consumer(EB_ADDRESS);
         messageConsumer.handler(this::handler);
         logger.info("Started");
     }

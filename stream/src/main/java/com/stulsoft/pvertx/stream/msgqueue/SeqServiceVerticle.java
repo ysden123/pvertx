@@ -26,7 +26,7 @@ public class SeqServiceVerticle extends AbstractVerticle {
     @Override
     public void start() throws Exception {
         super.start();
-        messageConsumer = vertx.eventBus().<String>consumer(EB_ADDRESS);
+        messageConsumer = vertx.eventBus().consumer(EB_ADDRESS);
         messageConsumer.handler(this::handler);
         logger.info("Started");
     }
