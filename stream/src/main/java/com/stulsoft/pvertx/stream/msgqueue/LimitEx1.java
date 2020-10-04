@@ -11,32 +11,35 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Message producer and message consumer with pause and resume
+ * Playing with limitations on queue size.
  *
  * @author Yuriy Stul
  */
-public class MsgConsumerProducerEx2 {
-    private static final Logger logger = LoggerFactory.getLogger(MessageConsumerEx1.class);
+public class LimitEx1 {
+    private static final Logger logger = LoggerFactory.getLogger(LimitEx1.class);
 
     public static void main(String[] args) {
         logger.info("==>main");
-        var msgQueueAddress = "msgQueueAddress";
+        var msgQueueAddress = "msgQueueAddress.LimitEx1";
 
         var vertx = Utils.createVertx();
         MessageProducer<String> msgProducer = vertx.eventBus().sender(msgQueueAddress);
-        msgProducer.setWriteQueueMaxSize(3);
         MessageConsumer<String> msgConsumer = vertx.eventBus().consumer(msgQueueAddress);
+        msgConsumer.setMaxBufferedMessages(3);
+        msgProducer.setWriteQueueMaxSize(2);
 
         msgConsumer.handler(handler -> {
             logger.info("Received {}", handler.body());
             msgConsumer.pause();
-            vertx.setTimer(1000, l -> msgConsumer.resume());
+
+            vertx.setTimer(500, l -> msgConsumer.resume());
         });
 
-        for (int i = 1; i <= 5; ++i) {
-            var msg = "msg # " + i;
+
+        for (int i = 1; i <= 10; ++i) {
             msgProducer.write("msg # " + i);
-            logger.info("wrote {}", msg);
+            logger.info("msgProducer.writeQueueFull() = {}", msgProducer.writeQueueFull());
         }
+
     }
 }

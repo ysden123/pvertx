@@ -10,6 +10,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
+ * Simple usage the message consumer
+ *
  * @author Yuriy Stul
  */
 public class MessageConsumerEx1 {
@@ -17,7 +19,7 @@ public class MessageConsumerEx1 {
 
     public static void main(String[] args) {
         logger.info("==>main");
-        var address="messageQueue";
+        var address = "messageQueue";
 
         var vertx = Utils.createVertx();
 
@@ -27,13 +29,14 @@ public class MessageConsumerEx1 {
 //            messageConsumer.pause();
         });
 
-        for(int i = 1; i <= 5; ++i ) {
+        for (int i = 1; i <= 5; ++i) {
             vertx.eventBus().send(address, "test # " + i);
         }
 
-        try{
+        try {
             Thread.sleep(1000);
             vertx.close();
-        }catch (Exception ignore){}
+        } catch (Exception ignore) {
+        }
     }
 }
