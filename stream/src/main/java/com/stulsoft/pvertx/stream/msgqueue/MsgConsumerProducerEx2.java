@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
  * @author Yuriy Stul
  */
 public class MsgConsumerProducerEx2 {
-    private static final Logger logger = LoggerFactory.getLogger(MessageConsumerEx1.class);
+    private static final Logger logger = LoggerFactory.getLogger(MsgConsumerProducerEx2.class);
 
     public static void main(String[] args) {
         logger.info("==>main");
