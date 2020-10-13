@@ -57,7 +57,7 @@
         <log4jSlf4j.version>2.13.3</log4jSlf4j.version>
         <reactivex.version>2.2.19</reactivex.version>
         <typesafe.version>1.4.0</typesafe.version>
-        <junit.version>4.12</junit.version>
+        <junit.version>4.13.1</junit.version>
         <junit.jupiter.version>5.4.0</junit.jupiter.version>
         <mockito.version>2.25.0</mockito.version>
     </properties>
