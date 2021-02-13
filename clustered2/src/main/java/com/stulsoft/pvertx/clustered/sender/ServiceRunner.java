@@ -15,17 +15,16 @@ import org.slf4j.LoggerFactory;
  *
  * @author Yuriy Stul
  */
-public class ReceiverRunner {
-    private static final Logger logger = LoggerFactory.getLogger(ReceiverRunner.class);
+public class ServiceRunner {
+    private static final Logger logger = LoggerFactory.getLogger(ServiceRunner.class);
 
-    public static void run() {
-        logger.info("==>run");
+    public static void run(final String serviceInstanceName) {
         final var mgr = new HazelcastClusterManager(ClusterConfiguratorHelper.getHazelcastConfiguration());
         final var options = new VertxOptions().setClusterManager(mgr);
         Vertx.clusteredVertx(options, cluster -> {
             if (cluster.succeeded()) {
                 logger.info("Cluster started");
-                cluster.result().deployVerticle(Receiver.class.getName(), res -> {
+                cluster.result().deployVerticle(new Service(serviceInstanceName), res -> {
                     if (res.succeeded()) {
                         logger.info("Deployment id is: {} ", res.result());
                     } else {

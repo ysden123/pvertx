@@ -5,11 +5,8 @@
 package com.stulsoft.pvertx.clustered.sender;
 
 import io.vertx.core.AbstractVerticle;
-import io.vertx.core.Future;
 import io.vertx.core.Promise;
 import io.vertx.core.eventbus.Message;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Sender verticle
@@ -17,7 +14,6 @@ import org.slf4j.LoggerFactory;
  * @author Yuriy Stul
  */
 public class Sender extends AbstractVerticle {
-    private static final Logger logger = LoggerFactory.getLogger(Sender.class);
 
     public static final String EB_ADDRESS = "Sender";
 
@@ -29,7 +25,15 @@ public class Sender extends AbstractVerticle {
 
     private void handler(Message<String> msg) {
         final var eb = vertx.eventBus();
-        logger.info("Received {}", msg.body());
-        eb.publish(Receiver.EB_ADDRESS, "some message " + msg.body());
+        eb.<String>request(
+                Service.EB_ADDRESS,
+                "some message ".concat(msg.body()),
+                sendResult -> {
+                    if (sendResult.succeeded())
+                        msg.reply(sendResult.result().body());
+                    else
+                        msg.fail(1, sendResult.cause().getMessage());
+                }
+        );
     }
 }

@@ -1,4 +1,4 @@
-= clustered1
+= clustered2
 
 Playing with clustered Vertx
 
@@ -6,8 +6,8 @@ See original code here https://github.com/hakdogan/IntroduceToEclicpseVert.x
 
 == Running the application in cluster mode from IDE
 * Run SenderRunner
-* Run ReceiverRunner1
-* Run ReceiverRunner2
+* Run ServiceRunner1
+* Run ServiceRunner2
 
 == Running from command line
 //`mvn clean package`
@@ -17,3 +17,12 @@ See original code here https://github.com/hakdogan/IntroduceToEclicpseVert.x
 //`java -jar target/clustered1-0.0.1-SNAPSHOT-fat.jar run com.stulsoft.pvertx.clustered.consumer.Monitoring -cluster`
 //
 //`java -jar target/clustered1-0.0.1-SNAPSHOT-fat.jar run com.stulsoft.pvertx.clustered.consumer.RebootConsumer -cluster`
+
+java -cp target\clustered2-0.0.1-SNAPSHOT-fat.jar com.stulsoft.pvertx.clustered.sender.SenderRunner
+
+java -cp target\clustered2-0.0.1-SNAPSHOT-fat.jar com.stulsoft.pvertx.clustered.sender.ServiceRunner1
+
+java -cp target\clustered2-0.0.1-SNAPSHOT-fat.jar com.stulsoft.pvertx.clustered.sender.ServiceRunner2
+== JVM Options
+
+--add-modules java.se --add-exports java.base/jdk.internal.ref=ALL-UNNAMED --add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/java.nio=ALL-UNNAMED --add-opens java.base/sun.nio.ch=ALL-UNNAMED --add-opens java.management/sun.management=ALL-UNNAMED --add-opens jdk.management/com.sun.management.internal=ALL-UNNAMED

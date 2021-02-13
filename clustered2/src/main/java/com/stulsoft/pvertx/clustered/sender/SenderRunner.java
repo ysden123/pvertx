@@ -10,6 +10,8 @@ import io.vertx.spi.cluster.hazelcast.HazelcastClusterManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 /**
  * Runs Sender verticle
  *
@@ -19,7 +21,6 @@ public class SenderRunner {
     private static final Logger logger = LoggerFactory.getLogger(SenderRunner.class);
 
     public static void main(String[] args) {
-        logger.info("==>main");
         final var mgr = new HazelcastClusterManager(ClusterConfiguratorHelper.getHazelcastConfiguration());
         final var options = new VertxOptions().setClusterManager(mgr);
 
@@ -31,9 +32,18 @@ public class SenderRunner {
                     if (deployResult.succeeded()) {
                         logger.info("Sender deployed");
                         final var eb = cluster.result().eventBus();
-                        cluster.result().setPeriodic(1000, l -> {
-                            eb.send(Sender.EB_ADDRESS, "Some input message");
-                        });
+                        var counter = new AtomicInteger(0);
+                        cluster.result().setPeriodic(5000,
+                                l -> eb.request(
+                                Sender.EB_ADDRESS,
+                                "Sending message for " + counter.incrementAndGet(),
+                                sendResult -> {
+                                    if (sendResult.succeeded()) {
+                                        logger.info("Response from service: {}", sendResult.result().body());
+                                    } else {
+                                        logger.warn("Response from service has not received. {}", sendResult.cause().getMessage());
+                                    }
+                                }));
                     } else {
                         logger.error("Failed deploy Sender. {}", deployResult.cause().getMessage());
                     }
