@@ -8,7 +8,7 @@ import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 import io.reactivex.Completable;
 import io.vertx.core.AsyncResult;
-import io.vertx.core.Future;
+import io.vertx.core.Promise;
 import io.vertx.core.eventbus.ReplyException;
 import io.vertx.core.json.Json;
 import io.vertx.reactivex.core.AbstractVerticle;
@@ -26,7 +26,7 @@ import java.util.Map;
  * @author Yuriy Stul
  */
 public class Server extends AbstractVerticle {
-    private static Logger logger = LoggerFactory.getLogger(Server.class);
+    private static final Logger logger = LoggerFactory.getLogger(Server.class);
 
     @Override
     public Completable rxStart() {
@@ -46,11 +46,11 @@ public class Server extends AbstractVerticle {
     }
 
     @Override
-    public void stop(Future<Void> stopFuture) {
+    public void stop(Promise<Void> stopFuture) {
         logger.info("Stopping HTTP server...");
         try {
             super.stop(stopFuture);
-        }catch(Exception ex){
+        } catch (Exception ex) {
             logger.error("Failed stopping server " + ex.getMessage(), ex);
         }
     }

@@ -5,6 +5,7 @@
 package com.stulsoft.pvertx.basics.asynctest;
 
 import io.vertx.core.Future;
+import io.vertx.core.Promise;
 import io.vertx.core.json.JsonObject;
 import io.vertx.reactivex.core.AbstractVerticle;
 import io.vertx.reactivex.core.eventbus.Message;
@@ -19,7 +20,7 @@ public class SyncVerticle extends AbstractVerticle {
     public static final String EB_ADDRESS = SyncVerticle.class.getName();
 
     @Override
-    public void start(Future<Void> startFuture) throws Exception {
+    public void start(Promise<Void> startFuture) throws Exception {
         super.start(startFuture);
         logger.info("Starting ...");
         vertx.eventBus().consumer(EB_ADDRESS, this::handler);

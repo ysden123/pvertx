@@ -4,8 +4,8 @@
 
 package com.stulsoft.pvertx.preactivex2.fututure;
 
-import io.vertx.rxjava.core.CompositeFuture;
-import io.vertx.rxjava.core.Future;
+import io.vertx.core.CompositeFuture;
+import io.vertx.core.Future;
 import io.vertx.rxjava.core.Promise;
 import io.vertx.rxjava.core.Vertx;
 import org.slf4j.Logger;

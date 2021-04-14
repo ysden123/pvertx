@@ -16,7 +16,6 @@ public class Utils {
     public static Vertx createVertx() {
         return Vertx.vertx(new VertxOptions()
                 .setEventBusOptions(new EventBusOptions()
-                        .setClustered(false)
                         .setIdleTimeout(0))
                 .setMaxEventLoopExecuteTime(2000000000000L)
                 .setMaxWorkerExecuteTime(60000000000000L)

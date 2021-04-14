@@ -4,7 +4,7 @@
 
 package com.stulsoft.pvertx.httpserver.cluster.verticle;
 
-import io.vertx.core.Future;
+import io.vertx.core.Promise;
 import io.vertx.reactivex.core.AbstractVerticle;
 import io.vertx.reactivex.core.eventbus.Message;
 import org.slf4j.Logger;
@@ -20,7 +20,7 @@ public class Service extends AbstractVerticle {
     private static Random random = new Random(System.currentTimeMillis());  // Bad code! Verticle should be stateless!
 
     @Override
-    public void start(Future<Void> startFuture) throws Exception {
+    public void start(Promise<Void> startFuture) throws Exception {
         logger.info("Starting Service...");
 
         vertx.eventBus().consumer("serviceAddress", this::handleMessage);

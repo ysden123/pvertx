@@ -6,7 +6,7 @@ package com.stulsoft.pvertx.pjson;
 
 import io.vertx.core.file.OpenOptions;
 import io.vertx.core.parsetools.JsonEventType;
-import io.vertx.reactivex.core.Future;
+import io.vertx.core.Future;
 import io.vertx.reactivex.core.Promise;
 import io.vertx.reactivex.core.Vertx;
 import io.vertx.reactivex.core.parsetools.JsonParser;

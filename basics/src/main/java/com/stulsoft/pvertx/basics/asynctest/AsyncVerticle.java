@@ -4,7 +4,7 @@
 
 package com.stulsoft.pvertx.basics.asynctest;
 
-import io.vertx.core.Future;
+import io.vertx.core.Promise;
 import io.vertx.core.json.JsonObject;
 import io.vertx.reactivex.core.AbstractVerticle;
 import io.vertx.reactivex.core.eventbus.Message;
@@ -24,7 +24,7 @@ public class AsyncVerticle extends AbstractVerticle {
     private final Random random = new Random();
 
     @Override
-    public void start(Future<Void> startFuture) throws Exception {
+    public void start(Promise<Void> startFuture) throws Exception {
         super.start(startFuture);
         logger.info("Starting...");
         vertx.eventBus().consumer(EB_ADDRESS, this::handler);
@@ -46,7 +46,8 @@ public class AsyncVerticle extends AbstractVerticle {
                             msg.fail(321, "cannot reply");
                         }
                     });
-                } else*/ if ("data 10".equals(data)) {
+                } else*/
+                if ("data 10".equals(data)) {
                     logger.debug("fail");
                     msg.fail(1, "timeout");
                 } else {
@@ -55,7 +56,7 @@ public class AsyncVerticle extends AbstractVerticle {
                     msg.reply(reply);
                 }
             });
-        }catch(Exception ex){
+        } catch (Exception ex) {
             logger.error("222 {}", ex.getMessage());
         }
     }
