@@ -17,10 +17,10 @@ public class Test2 {
 
     private static Observable<String> work() {
         logger.info("==>work");
-        return Observable.create(emmiter -> {
-            emmiter.onNext("test1");
+        return Observable.create(emitter -> {
+            emitter.onNext("test1");
             logger.info("after onNext");
-            emmiter.onComplete();
+            emitter.onComplete();
             logger.info("after onComplete");
         });
     }

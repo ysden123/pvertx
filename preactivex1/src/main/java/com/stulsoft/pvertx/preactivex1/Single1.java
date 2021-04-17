@@ -28,9 +28,7 @@ public class Single1 {
 						e -> {
 							throw new RuntimeException(e.getMessage());
 						},
-						() -> {
-							logger.info("result: {}", result[0]);
-						});
+						() -> logger.info("result: {}", result[0]));
 		single.dispose();
 		logger.info("<==main");
 	}
