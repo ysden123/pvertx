@@ -16,9 +16,7 @@ public class HelloWorld {
 
     public static void main(String[] args) {
         logger.info("==>HelloWorld.main");
-        Flowable.just("Hello world").subscribe((s) -> {
-            logger.info("s: {}", s);
-        });
+        Flowable.just("ttt").subscribe(s -> logger.info("s: {}", s));
         logger.info("<==HelloWorld.main");
     }
 }
