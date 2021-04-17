@@ -10,6 +10,7 @@ import com.typesafe.config.ConfigFactory;
 import io.reactivex.Single;
 import io.reactivex.disposables.Disposable;
 import io.vertx.core.Promise;
+import io.vertx.core.eventbus.DeliveryOptions;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.reactivex.core.AbstractVerticle;
@@ -25,10 +26,10 @@ import java.util.concurrent.Executors;
  * @author Yuriy Stul
  */
 public class RestServer extends AbstractVerticle {
-    private static Logger logger = LoggerFactory.getLogger(RestServer.class);
+    private static final Logger logger = LoggerFactory.getLogger(RestServer.class);
     private Disposable server;
     private Disposable someDisposable;
-    private ExecutorService es = Executors.newFixedThreadPool(3);
+    private final ExecutorService es = Executors.newFixedThreadPool(3);
 
     @Override
     public void start(Promise<Void> startPromise) {
@@ -94,6 +95,38 @@ public class RestServer extends AbstractVerticle {
                             .subscribe(response -> sendJson(response, routingContext),
                                     error -> sendError(error, routingContext));
                 });
+//        curl -X POST http://localhost:8080/rest/long
+        router.post("/rest/long")
+                .handler(routingContext ->
+                        vertx.executeBlocking(blockingHandler -> {
+                                    logger.debug("in blockingHandler");
+                                    var deliveryOptions = new DeliveryOptions().setSendTimeout(120_000);
+                                    vertx.eventBus().request(
+                                            LongService.EB_ADDRESS,
+                                            "test",
+                                            deliveryOptions,
+                                            ar -> {
+                                                if (ar.succeeded()) {
+                                                    blockingHandler.complete(ar.result().body());
+                                                } else {
+                                                    blockingHandler.fail(ar.cause().getMessage());
+                                                }
+                                            });
+                                },
+                                resultHandler -> {
+                                    logger.debug("in resultHandler");
+                                    if (resultHandler.succeeded()) {
+                                        if (routingContext.response().closed()) {
+                                            logger.error("Response was closed");
+                                        } else
+                                            routingContext.response().end(resultHandler.result().toString());
+                                    } else {
+                                        logger.error(resultHandler.cause().getMessage());
+                                        routingContext.response().setStatusCode(500).end(resultHandler.cause().getMessage());
+                                    }
+                                }
+                        )
+                );
 
         return router;
     }

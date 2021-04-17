@@ -4,6 +4,7 @@
 
 package com.stulsoft.pverts.restserver1;
 
+import com.stulsoft.pverts.restserver1.verticles.LongService;
 import com.stulsoft.pverts.restserver1.verticles.RestServer;
 import io.vertx.reactivex.core.Vertx;
 import org.slf4j.Logger;
@@ -20,6 +21,7 @@ public class RestServer1Main {
         Vertx vertx = Vertx.vertx();
 
         logger.info("Deploying restServer...");
+        vertx.deployVerticle(LongService.class.getName());
         vertx.deployVerticle(RestServer.class.getName());
     }
 }
