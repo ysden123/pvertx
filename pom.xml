@@ -12,6 +12,7 @@
     <name>Playing with Vertx</name>
 
     <modules>
+        <module>authentication</module>
         <module>ask</module>
         <module>asyncresult</module>
         <module>autoclose</module>
@@ -40,6 +41,7 @@
         <module>preactivex2</module>
         <module>preactivex3</module>
         <module>preactivex4</module>
+        <module>psync</module>
         <module>restserver1</module>
         <module>rxjava1</module>
         <module>simple1</module>
