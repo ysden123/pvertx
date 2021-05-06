@@ -29,7 +29,6 @@ public class LdapAuthEx4 {
         System.out.println("Enter password");
         var password = in.nextLine();
         test1(username, password);
-
     }
 
     private static void test1(final String username, final String password){
@@ -61,7 +60,6 @@ public class LdapAuthEx4 {
                 var result = answer.next();
                 var distinguishedName = result.getNameInNamespace();
                 logger.info("distinguishedName={}", distinguishedName);
-
 
                 // attempt another authentication, now with the user
                 Properties authEnv = new Properties();
