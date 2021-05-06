@@ -47,6 +47,7 @@ public class LdapAuthenticationEx1 {
             var theVertx = io.vertx.reactivex.core.Vertx.newInstance(vertx);
 
             var env = new Hashtable<String, String>();
+            env.put(Context.PROVIDER_URL, "ldap://dc4.webpalsltd.local:389");
             env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
             env.put(Context.PROVIDER_URL, ldapUrl);
             env.put(Context.SECURITY_AUTHENTICATION, "simple");
@@ -62,15 +63,8 @@ public class LdapAuthenticationEx1 {
 
             var authenticationProvider = LdapAuthentication.create(theVertx, options);
             logger.info("authenticationProvider was created: {}", authenticationProvider.toString());
-/*
-            var credentials = new JsonObject()
-//                    .put("username", "hhh@aaa.com")
-//                    .put("password", "pass");
-                    .put("username", "yuriy.s@webpals.com")
-                    .put("password", "peWP113123");
-*/
 
-            var credentials = new UsernamePasswordCredentials("yuriy.s", "peWP113123");
+            var credentials = new UsernamePasswordCredentials("yuriy.s", "****");
 
             authenticationProvider.authenticate(credentials, res -> {
                 if (res.succeeded()) {
