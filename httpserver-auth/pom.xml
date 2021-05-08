@@ -19,6 +19,11 @@
             <version>${vertx.version}</version>
         </dependency>
         <dependency>
+            <groupId>io.vertx</groupId>
+            <artifactId>vertx-auth-jwt</artifactId>
+            <version>${vertx.version}</version>
+        </dependency>
+        <dependency>
             <groupId>com.stulsoft</groupId>
             <artifactId>common</artifactId>
             <version>1.0-SNAPSHOT</version>

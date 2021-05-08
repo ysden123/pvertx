@@ -21,11 +21,15 @@ import org.slf4j.LoggerFactory;
  */
 public class MyAuthProvider implements AuthenticationProvider {
     private static Logger logger = LoggerFactory.getLogger(MyAuthProvider.class);
+
     @Override
     public void authenticate(JsonObject jsonObject, Handler<AsyncResult<User>> handler) {
         logger.debug("jsonObject: {}", jsonObject.encode());
-//        handler.handle(Future.succeededFuture(new UserImpl()));
-        handler.handle(Future.failedFuture("Invalid username/password"));
+        // Here should be authentication, e.g. via LDAP
+        User user = User.fromName("ystest2");
+
+        handler.handle(Future.succeededFuture(user));
+//        handler.handle(Future.failedFuture("Invalid username/password"));
     }
 
     @Override

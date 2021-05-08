@@ -1,3 +1,5 @@
 = httpserver1
 
 This project is a simple HTTP Server starter project with Vertx.
+
+The project demonstrates authentication.
