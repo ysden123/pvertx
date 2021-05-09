@@ -2,6 +2,7 @@ package com.stulsoft.pvertx.httpserverauth;
 
 import com.stulsoft.pvertx.common.Terminator;
 import com.stulsoft.pvertx.httpserverauth.verticles.HttpServer;
+import com.stulsoft.pvertx.httpserverauth.verticles.HttpServer2;
 import io.vertx.core.Verticle;
 import io.vertx.core.Vertx;
 import org.slf4j.Logger;
@@ -18,7 +19,7 @@ public class MainAuth {
         logger.info("Started MainAuth");
         Vertx vertx = Vertx.vertx();
 
-        Verticle httpServer = new HttpServer();
+        Verticle httpServer = new HttpServer2();
 
         logger.info("Deploying HttpServer");
         vertx.deployVerticle(httpServer);
