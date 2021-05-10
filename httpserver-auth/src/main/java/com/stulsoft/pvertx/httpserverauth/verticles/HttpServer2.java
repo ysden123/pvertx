@@ -4,6 +4,7 @@
 
 package com.stulsoft.pvertx.httpserverauth.verticles;
 
+import com.stulsoft.pvertx.httpserverauth.auth.LdapAuth;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 import io.vertx.core.AbstractVerticle;
@@ -15,7 +16,6 @@ import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.JWTOptions;
 import io.vertx.ext.auth.PubSecKeyOptions;
-import io.vertx.ext.auth.authentication.TokenCredentials;
 import io.vertx.ext.auth.jwt.JWTAuth;
 import io.vertx.ext.auth.jwt.JWTAuthOptions;
 import io.vertx.ext.web.Router;
@@ -94,17 +94,21 @@ public class HttpServer2
 
     private void login(RoutingContext routingContext) {
         logger.info("==>login");
-        String token = jwtProvider.generateToken(new JsonObject().put("username", "jwtuser"), jwtOptions);
-        jwtProvider
-                .authenticate(new JsonObject());
-        logger.info("token = {}", token);
-        var credentials = new TokenCredentials(token);
-        logger.info("credentials: {}", credentials.toString());
-        var responseBody = new JsonObject()
-                .put("token", token);
 
-        HttpServerResponse response = routingContext.response();
-        response.putHeader("content-type", "application/json").end(responseBody.encodePrettily());
+        vertx.eventBus().<JsonObject>request(LdapAuth.EB_ADDRESS, new JsonObject())
+                .onComplete(ldapResult ->{
+                   if (ldapResult.succeeded()){
+                       String token = jwtProvider.generateToken(ldapResult.result().body().getJsonObject("user"));
+                       var responseBody = new JsonObject()
+                               .put("token", token)
+                               .put("thumbnail", ldapResult.result().body().getString("thumbnail"));
+                       HttpServerResponse response = routingContext.response();
+                       response.putHeader("content-type", "application/json").end(responseBody.encodePrettily());
+                   }else{
+                       logger.error(ldapResult.cause().getMessage());
+                       // todo YS
+                   }
+                });
     }
 
     private void indexHandler(RoutingContext routingContext) {
