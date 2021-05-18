@@ -37,17 +37,17 @@ public class HttpServer2
         extends AbstractVerticle {
     private static final Logger logger = LoggerFactory.getLogger(HttpServer2.class);
     JWTAuth jwtProvider;
-    JWTOptions jwtOptions;
 
     @Override
     public void init(Vertx vertx, Context context) {
         super.init(vertx, context);
 
-        jwtOptions = new JWTOptions()
-                .setExpiresInMinutes(100)
-                .setPermissions(Arrays.asList("permission1", "permission2", "permission3"));
+        var jwtOptions = new JWTOptions()
+                .setExpiresInMinutes(100);
+
         try {
             jwtProvider = JWTAuth.create(vertx, new JWTAuthOptions()
+                    .setJWTOptions(jwtOptions)
                     .addPubSecKey(new PubSecKeyOptions()
                             .setAlgorithm("HS256")
                             .setBuffer("keyboard cat")));
@@ -68,7 +68,6 @@ public class HttpServer2
         io.vertx.core.http.HttpServer server = vertx.createHttpServer();
 
         Router router = Router.router(vertx);
-        router.route().handler(SessionHandler.create(LocalSessionStore.create(vertx)));
         router.route().handler(SessionHandler.create(LocalSessionStore.create(vertx)));
         router.get("/login").handler(this::login);
         var authenticationHandler = JWTAuthHandler.create(jwtProvider);
