@@ -20,13 +20,9 @@ public class TimerEx01 {
         var vertx = Utils.createVertx();
 
         logger.info("Started");
-        vertx.setTimer(1000, __ -> {
-            logger.info("Timer");
-        });
+        vertx.setTimer(1000, __ -> logger.info("Timer"));
 
-        vertx.setPeriodic(2000, __ ->{
-            logger.info("Periodic");
-        });
+        vertx.setPeriodic(2000, __ -> logger.info("Periodic"));
 
         vertx.setTimer(10000, __ -> vertx.close());
     }
