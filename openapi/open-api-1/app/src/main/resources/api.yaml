@@ -1,0 +1,55 @@
+openapi: "3.0.3"
+info:
+  title: Vertx OpenAPI test 1
+  version: "1.0.0"
+servers:
+  - url: http://localhost:8080
+
+#components:
+#  securitySchemes:
+#    bearerAuth:
+#      type: http
+#      scheme: bearer
+#      bearerFormat: JWT
+
+#security:
+#  - bearerAuth: []
+
+paths:
+  /restapi/test1:
+    post:
+      description: Test 1
+      operationId: test1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - accId
+                - name
+              properties:
+                accId:
+                  type: integer
+                name:
+                  type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  accName:
+                    type: string
+        '400':
+          description: Bad request
+        '500':
+          description: Internal server error
+          content:
+            text:
+              schema:
+                type: string
+                example: Timeout during sending request
