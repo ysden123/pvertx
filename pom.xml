@@ -51,6 +51,7 @@
         <module>unittest2</module>
         <module>upload-server</module>
         <module>worker1</module>
+        <module>vertx4</module>
     </modules>
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
