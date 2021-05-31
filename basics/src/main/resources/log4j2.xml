@@ -18,5 +18,6 @@
             <AppenderRef ref="File"/>
         </Root>
         <Logger name="io.netty" level="error"/>
+        <Logger name="io.vertx" level="error"/>
     </Loggers>
 </Configuration>
