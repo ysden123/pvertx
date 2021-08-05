@@ -52,6 +52,7 @@
         <module>upload-server</module>
         <module>worker1</module>
         <module>vertx4</module>
+        <module>sync-inside</module>
     </modules>
     <properties>
         <maven.compiler.source>11</maven.compiler.source>

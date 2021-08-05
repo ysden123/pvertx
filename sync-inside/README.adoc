@@ -1,0 +1,3 @@
+= sync-inside
+
+Blocking (Non-Vertx) and unblocking (Vertx) together in one project
