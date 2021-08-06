@@ -1,8 +1,8 @@
 /*
- * Copyright (c) 2021. Webpals
+ * Copyright (c) 2021. StulSoft
  */
 
-package com.stulsoft.pvertx.sync.inside;
+package com.stulsoft.pvertx.sync.inside.servise;
 
 import io.vertx.core.Vertx;
 import org.slf4j.Logger;
@@ -20,13 +20,9 @@ public class BlockedService {
     private static final Logger logger = LoggerFactory.getLogger(BlockedService.class);
 
     private final Random random = new Random();
-    private final Vertx vertx;
 
-    public BlockedService(Vertx vertx) {
-        this.vertx = vertx;
-    }
 
-    public void run() {
+    public void run(Vertx vertx) {
         logger.info("==>run");
         TimerTask timerTask = new TimerTask() {
             @Override

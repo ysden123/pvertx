@@ -1,3 +1,13 @@
 = sync-inside
 
 Blocking (Non-Vertx) and unblocking (Vertx) together in one project
+
+== runfrommain
+Runs a blocking service from a main method.
+
+See _SyncInsideMain_ class.
+
+== runfromverticle
+Runs a blocking service from a verticle. This approach allows to use a verticle configuration.
+
+See _RunFromVerticleMain_ class.

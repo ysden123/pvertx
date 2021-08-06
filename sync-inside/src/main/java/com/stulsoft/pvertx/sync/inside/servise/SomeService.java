@@ -1,8 +1,8 @@
 /*
- * Copyright (c) 2021. Webpals
+ * Copyright (c) 2021. StulSoft
  */
 
-package com.stulsoft.pvertx.sync.inside;
+package com.stulsoft.pvertx.sync.inside.servise;
 
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Promise;
