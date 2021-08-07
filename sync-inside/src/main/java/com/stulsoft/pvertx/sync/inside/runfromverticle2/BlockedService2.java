@@ -2,7 +2,7 @@
  * Copyright (c) 2021. StulSoft
  */
 
-package com.stulsoft.pvertx.sync.inside.servise;
+package com.stulsoft.pvertx.sync.inside.runfromverticle2;
 
 import io.vertx.core.Vertx;
 import org.slf4j.Logger;
@@ -16,11 +16,11 @@ import java.util.TimerTask;
 /**
  * @author Yuriy Stul
  */
-public class BlockedService {
-    private static final Logger logger = LoggerFactory.getLogger(BlockedService.class);
+public class BlockedService2 {
+    private static final Logger logger = LoggerFactory.getLogger(BlockedService2.class);
 
     private final Random random = new Random();
-
+    
     public void run(Vertx vertx) {
         logger.info("==>run");
         TimerTask timerTask = new TimerTask() {
@@ -31,7 +31,7 @@ public class BlockedService {
                     Thread.sleep(random.nextInt(10_000) + 1);
                 } catch (Exception ignore) {
                 }
-                vertx.eventBus().send(SomeService.EB_ADDRESS, "Working on " + new Date());
+                vertx.eventBus().send(ServiceWithBlockedVerticle.EB_ADDRESS, "Working on " + new Date());
             }
         };
         new Timer().schedule(timerTask, 100, 5_000);

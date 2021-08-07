@@ -11,3 +11,8 @@ See _SyncInsideMain_ class.
 Runs a blocking service from a verticle. This approach allows to use a verticle configuration.
 
 See _RunFromVerticleMain_ class.
+
+== runfromverticle2
+Runs a blocking service from a verticle during _start_ of verticle. This approach allows to use a verticle configuration.
+
+See _ServiceWithBlockedVerticle_ class.
